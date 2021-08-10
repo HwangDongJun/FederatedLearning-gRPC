@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package transport;
+
+service TransportService {
+	rpc Manage(stream ClientMessage) returns (stream ServerMessage) {}
+}
+
+message Parameters {
+	repeated bytes tensors = 1;
+	string tensor_type = 2;
+}
+enum Reason {
+	UNKNOWN = 0;
+	RECONNECT = 1;
+	NET_UNAVAILABLE = 2;
+	NOT_CHARGING = 3;
+	LOW_BATTERY = 4;
+}
+
+message ServerMessage {
+	message ReadyRep {}
+	message UpdateRep {
+		Parameters parameters = 1;
+		map<string, Scalar> config = 2;
+	}
+	message VersionRep {
+		map<string, Scalar> config = 1;
+	}
+	message DeleteRep {
+		int32 value = 1;
+		optional string state = 2;
+	}
+
+	oneof msg {
+		ReadyRep ready_rep = 1;
+		UpdateRep update_rep = 2;
+		VersionRep version_rep = 3;
+		DeleteRep delete_rep = 4;
+	}
+}
+
+message ClientMessage {
+	message ReadyReq {
+		string cname = 1;
+	}
+	message UpdateReq {
+		Parameters parameters = 1;
+		map<string, Scalar> config = 2;
+	}
+	message VersionReq {
+		string name = 1;
+		int32 version = 2;
+	}
+	message DeleteReq {
+		string name = 1;
+		Reason reason = 2;
+	}
+
+	oneof msg {
+		ReadyReq ready_req = 1;
+		UpdateReq update_req = 2;
+		VersionReq version_req = 3;
+		DeleteReq delete_req = 4;
+	}
+}
+
+message Scalar {
+	oneof scalar {
+		double scdouble = 1;
+		float scfloat = 2;
+		int32 scint32 = 3;
+		string scstring = 4;
+		bool scbool = 5;
+	}
+}
