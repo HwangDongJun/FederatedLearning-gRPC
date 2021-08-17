@@ -10,18 +10,22 @@ enum State {
 	NONE = 0;
 	ON = 1;
 	OFF = 2;
+	TRAINING = 3;
+	TRAIN_DONE = 4;
 }
 
 message ReadyReq {
-	string type = 1;
+	string type = 1; // R:ready
 	string cname = 2;
 	State state = 3;
 	map<string, Scalar> config = 4;
 }
 message UpdateReq {
-	string type = 1; // P:parameter, L:logs
+	string type = 1; // P:parameter, L:logs, T:training
 	optional bytes buffer_chunk = 2;
 	optional string title = 3;
+	optional State state = 4;
+	optional string cname = 5;
 }
 
 message transportRequest {

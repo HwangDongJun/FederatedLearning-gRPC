@@ -51,9 +51,27 @@ def ready_client(name, config):
 
 	return configuration
 
+## save logs file from client
+def save_chunks_to_file(buffer_chunk, title):
+	print("### print chunks ###")
+	print(buffer_chunk)
+	print(title)
+	return True
+	'''
+	for chunk in chunks:
+		print("### print chunk ###")
+		print(chunk)
+		if not os.path.exists('.'+'/'.join(chunk.title[11:].split('/')[:-1])):
+			os.makedirs('.'+'/'.join(chunk.title[11:].split('/')[:-1]))
+		with open('.'+chunk.title[11:], 'wb') as fw:
+			fw.write(chunk.buffer_chunk)
+	'''
+##
+
 def manage_request(request):
 	for req in request:
-		if req.ready_req.type == 'READY':
+		print(req)
+		if req.ready_req.type == 'R':
 			res_config = [ready_client(req.ready_req.cname, req.ready_req.config)]
 			for rc in res_config:
 				yield transportResponse(ready_rep=ReadyRep(config=rc))
@@ -61,6 +79,20 @@ def manage_request(request):
 			res_para = [send_parameter()]
 			for rp in res_para:
 				yield transportResponse(update_rep=UpdateRep(type=req.update_req.type, buffer_chunk=rp, title="parameters"))
+		elif req.update_req.type == 'T':
+			# 바로 아래 elif문에서 같은 내용의 코드 존재
+			client_name = req.update_req.cname
+			state = req.update_req.state
+
+			res_normal = [UpdateRep(type=req.update_req.type)]
+			for rn in res_normal:
+				yield transportResponse(update_rep=rn)
+		elif req.update_req.type == 'L':
+			print(req.update_req.title)
+			save_check = save_chunks_to_file(req.update_req.buffer_chunk, req.update_req.title)
+			res_normal = [UpdateRep(type=req.update_req.type)]
+			for rn in res_normal:
+				yield transportResponse(update_rep=rn)
 
 class TransportService(TransportServiceServicer):
 	def transport(self, request, context):
@@ -68,7 +100,8 @@ class TransportService(TransportServiceServicer):
 		return trans_res
 
 def serve():
-	server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+	options = [('grpc.max_receive_message_length', 512*1024*1024), ('grcp.max_send_message_length', 512*1024*1024)]
+	server = grpc.server(futures.ThreadPoolExecutor(max_workers=10), options=options)
 	add_TransportServiceServicer_to_server(TransportService(), server)
 	server.add_insecure_port('[::]:8890')
 	server.start()

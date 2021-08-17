@@ -18,7 +18,7 @@ class evaluate_LocalModel(object):
 
 	def gen_test_val_data(self):
 		gen_val = self.image_generator()
-		val_data_dir = os.path.abspath('/home/dnlab/federated_grpc/data_balance/test/')
+		val_data_dir = os.path.abspath('/home/dnlab/Downloads/data_balance/test/')
 		val_data_gen = gen_val.flow_from_directory(directory=str(val_data_dir),
 				        batch_size=self.batch_size,
 				        color_mode='rgb',
@@ -28,6 +28,7 @@ class evaluate_LocalModel(object):
 		return val_data_gen
 
 	def buildGlobalModel(self, channels, lr):
+		'''
 		model = tf.keras.Sequential([
 				layers.InputLayer(input_shape=self.image_shape+(channels,)),
 				layers.Conv2D(20, (5, 5), strides=(1, 1), activation='relu'),
@@ -46,8 +47,22 @@ class evaluate_LocalModel(object):
 				optimizer=tf.keras.optimizers.Adam(learning_rate=lr),
 				loss='categorical_crossentropy',
 				metrics=['accuracy'])
+		'''
+		model = tf.keras.applications.MobileNetV2()
+		
+		base_input = model.layers[0].input
+		base_output = model.layers[-2].output
+		final_output = layers.Dense(128)(base_output)
+		final_output = layers.Activation('relu')(final_output)
+		final_output = layers.Dense(64)(final_output)
+		final_output = layers.Activation('relu')(final_output)
+		final_output = layers.Dense(5, activation='softmax')(final_output)
 
-		return model
+		new_model = keras.Model(inputs=base_input, outputs=final_output)
+		
+		new_model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+
+		return new_model
 
 	#def saved_model(self, localmodel):
 		#localmodel.save("./saved_model/")

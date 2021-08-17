@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0ftransport.proto\x12\ttransport\"\xbb\x01\n\x08ReadyReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05\x63name\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.State\x12/\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1f.transport.ReadyReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"c\n\tUpdateReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_title\"y\n\x10transportRequest\x12(\n\tready_req\x18\x01 \x01(\x0b\x32\x13.transport.ReadyReqH\x00\x12*\n\nupdate_req\x18\x02 \x01(\x0b\x32\x14.transport.UpdateReqH\x00\x42\x0f\n\rrequest_oneof\"}\n\x08ReadyRep\x12/\n\x06\x63onfig\x18\x01 \x03(\x0b\x32\x1f.transport.ReadyRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"c\n\tUpdateRep\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_title\"{\n\x11transportResponse\x12(\n\tready_rep\x18\x01 \x01(\x0b\x32\x13.transport.ReadyRepH\x00\x12*\n\nupdate_rep\x18\x02 \x01(\x0b\x32\x14.transport.UpdateRepH\x00\x42\x10\n\x0eresponse_oneof\"r\n\x06Scalar\x12\x12\n\x08scdouble\x18\x01 \x01(\x01H\x00\x12\x11\n\x07scfloat\x18\x02 \x01(\x02H\x00\x12\x11\n\x07scint32\x18\x03 \x01(\x05H\x00\x12\x12\n\x08scstring\x18\x04 \x01(\tH\x00\x12\x10\n\x06scbool\x18\x05 \x01(\x08H\x00\x42\x08\n\x06scalar*\"\n\x05State\x12\x08\n\x04NONE\x10\x00\x12\x06\n\x02ON\x10\x01\x12\x07\n\x03OFF\x10\x02\x32`\n\x10TransportService\x12L\n\ttransport\x12\x1b.transport.transportRequest\x1a\x1c.transport.transportResponse\"\x00(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0ftransport.proto\x12\ttransport\"\xbb\x01\n\x08ReadyReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05\x63name\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.State\x12/\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1f.transport.ReadyReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\xb1\x01\n\tUpdateReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x12\n\x05\x63name\x18\x05 \x01(\tH\x03\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_stateB\x08\n\x06_cname\"y\n\x10transportRequest\x12(\n\tready_req\x18\x01 \x01(\x0b\x32\x13.transport.ReadyReqH\x00\x12*\n\nupdate_req\x18\x02 \x01(\x0b\x32\x14.transport.UpdateReqH\x00\x42\x0f\n\rrequest_oneof\"}\n\x08ReadyRep\x12/\n\x06\x63onfig\x18\x01 \x03(\x0b\x32\x1f.transport.ReadyRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"c\n\tUpdateRep\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_title\"{\n\x11transportResponse\x12(\n\tready_rep\x18\x01 \x01(\x0b\x32\x13.transport.ReadyRepH\x00\x12*\n\nupdate_rep\x18\x02 \x01(\x0b\x32\x14.transport.UpdateRepH\x00\x42\x10\n\x0eresponse_oneof\"r\n\x06Scalar\x12\x12\n\x08scdouble\x18\x01 \x01(\x01H\x00\x12\x11\n\x07scfloat\x18\x02 \x01(\x02H\x00\x12\x11\n\x07scint32\x18\x03 \x01(\x05H\x00\x12\x12\n\x08scstring\x18\x04 \x01(\tH\x00\x12\x10\n\x06scbool\x18\x05 \x01(\x08H\x00\x42\x08\n\x06scalar*@\n\x05State\x12\x08\n\x04NONE\x10\x00\x12\x06\n\x02ON\x10\x01\x12\x07\n\x03OFF\x10\x02\x12\x0c\n\x08TRAINING\x10\x03\x12\x0e\n\nTRAIN_DONE\x10\x04\x32`\n\x10TransportService\x12L\n\ttransport\x12\x1b.transport.transportRequest\x1a\x1c.transport.transportResponse\"\x00(\x01\x30\x01\x62\x06proto3'
 )
 
 _STATE = _descriptor.EnumDescriptor(
@@ -45,11 +45,21 @@ _STATE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='TRAINING', index=3, number=3,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='TRAIN_DONE', index=4, number=4,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=913,
-  serialized_end=947,
+  serialized_start=992,
+  serialized_end=1056,
 )
 _sym_db.RegisterEnumDescriptor(_STATE)
 
@@ -57,6 +67,8 @@ State = enum_type_wrapper.EnumTypeWrapper(_STATE)
 NONE = 0
 ON = 1
 OFF = 2
+TRAINING = 3
+TRAIN_DONE = 4
 
 
 
@@ -180,6 +192,20 @@ _UPDATEREQ = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='state', full_name='transport.UpdateReq.state', index=3,
+      number=4, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='cname', full_name='transport.UpdateReq.cname', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -201,9 +227,19 @@ _UPDATEREQ = _descriptor.Descriptor(
       index=1, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_state', full_name='transport.UpdateReq._state',
+      index=2, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_cname', full_name='transport.UpdateReq._cname',
+      index=3, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
   ],
-  serialized_start=220,
-  serialized_end=319,
+  serialized_start=221,
+  serialized_end=398,
 )
 
 
@@ -246,8 +282,8 @@ _TRANSPORTREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=321,
-  serialized_end=442,
+  serialized_start=400,
+  serialized_end=521,
 )
 
 
@@ -316,8 +352,8 @@ _READYREP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=444,
-  serialized_end=569,
+  serialized_start=523,
+  serialized_end=648,
 )
 
 
@@ -372,8 +408,8 @@ _UPDATEREP = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=571,
-  serialized_end=670,
+  serialized_start=650,
+  serialized_end=749,
 )
 
 
@@ -416,8 +452,8 @@ _TRANSPORTRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=672,
-  serialized_end=795,
+  serialized_start=751,
+  serialized_end=874,
 )
 
 
@@ -481,20 +517,27 @@ _SCALAR = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=797,
-  serialized_end=911,
+  serialized_start=876,
+  serialized_end=990,
 )
 
 _READYREQ_CONFIGENTRY.fields_by_name['value'].message_type = _SCALAR
 _READYREQ_CONFIGENTRY.containing_type = _READYREQ
 _READYREQ.fields_by_name['state'].enum_type = _STATE
 _READYREQ.fields_by_name['config'].message_type = _READYREQ_CONFIGENTRY
+_UPDATEREQ.fields_by_name['state'].enum_type = _STATE
 _UPDATEREQ.oneofs_by_name['_buffer_chunk'].fields.append(
   _UPDATEREQ.fields_by_name['buffer_chunk'])
 _UPDATEREQ.fields_by_name['buffer_chunk'].containing_oneof = _UPDATEREQ.oneofs_by_name['_buffer_chunk']
 _UPDATEREQ.oneofs_by_name['_title'].fields.append(
   _UPDATEREQ.fields_by_name['title'])
 _UPDATEREQ.fields_by_name['title'].containing_oneof = _UPDATEREQ.oneofs_by_name['_title']
+_UPDATEREQ.oneofs_by_name['_state'].fields.append(
+  _UPDATEREQ.fields_by_name['state'])
+_UPDATEREQ.fields_by_name['state'].containing_oneof = _UPDATEREQ.oneofs_by_name['_state']
+_UPDATEREQ.oneofs_by_name['_cname'].fields.append(
+  _UPDATEREQ.fields_by_name['cname'])
+_UPDATEREQ.fields_by_name['cname'].containing_oneof = _UPDATEREQ.oneofs_by_name['_cname']
 _TRANSPORTREQUEST.fields_by_name['ready_req'].message_type = _READYREQ
 _TRANSPORTREQUEST.fields_by_name['update_req'].message_type = _UPDATEREQ
 _TRANSPORTREQUEST.oneofs_by_name['request_oneof'].fields.append(
@@ -621,8 +664,8 @@ _TRANSPORTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=949,
-  serialized_end=1045,
+  serialized_start=1058,
+  serialized_end=1154,
   methods=[
   _descriptor.MethodDescriptor(
     name='transport',
