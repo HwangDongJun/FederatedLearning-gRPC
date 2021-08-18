@@ -33,7 +33,7 @@ def get_file_chunks(filename):
 			piece = f.read(CHUNK_SIZE)
 			if len(piece) == 0:
 				return 
-			yield transportRequest(update_req=UpdateReq(type="L", buffer_chunk=piece, title=filename, state=State.TRAIN_DONE, file_len=len(piece)))
+			yield transportRequest(update_req=UpdateReq(type="L", buffer_chunk=piece, title=filename, file_len=len(piece)))
 
 def send_logs(stub, in_file_name):
 	chunks_generator = get_file_chunks(in_file_name)
@@ -45,6 +45,16 @@ def request_training(nclient):
 	training_request = [UpdateReq(type="T", cname=nclient, state=State.TRAINING)]
 	for tr in training_request:
 		yield transportRequest(update_req=tr)
+
+def request_traindone(nclient, cr, bc):
+	traindone_request = [UpdateReq(type="D", buffer_chunk=bc, cname=nclient, state=State.TRAIN_DONE, current_round=cr)]
+	for tr in traindone_request:
+		yield transportRequest(update_req=tr)
+
+def request_model_version(mv, cr):
+	version_request = [VersionReq(type="P", model_version=mv, current_round=cr)]
+	for vr in version_request:
+		yield transportRequest(version_req=vr)
 
 def send_message(stub):
 	global client_name
@@ -84,7 +94,33 @@ def send_message(stub):
 			full_fname = os.path.join(root, fname)
 			send_logs(stub, full_fname)
 
-	# 
+	# train done
+	print("### Deliver model state: TRAIN DONE to server ###")
+	traindone = request_traindone(client_name, ready_info_dict['cr'], get_params)
+	response_traindone = stub.transport(traindone)
+
+	oneres_traindone = None; oneres_version = None
+	for rt in response_traindone:
+		oneres_traindone = rt
+	# case 1: still learning model -> state: RESP_ACY
+	if oneres_traindone.update_rep.config['state'].scstring == 'RESP_ACY':
+		change_model_version = False
+		while True:
+			if change_model_version:
+				break
+			time.sleep(30)
+
+			# check model version
+			version = request_model_version(ready_info_dict['mv'], ready_info_dict['cr'])
+			response_version = stub.transport(version)
+			for rv in response_version:
+				oneres_version = rv
+			if oneres_version.version_rep.state == State.NOT_WAIT:
+				change_model_version = True
+
+		# train next round
+		get_params = class_for_learning.manage_train(params=oneres_version.version_rep.buffer_chunk)
+	elif oneres_traindone.update_rep.config['state'].scstring == '
 
 def run():
 	options = [('grpc.max_receive_message_length', 512*1024*1024), ('grcp.max_send_message_length', 512*1024*1024)]

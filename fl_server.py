@@ -9,10 +9,12 @@ import numpy as np
 
 import model_evaluate
 
-readyClientSids = list()
+readyClientSids = list(); currentRoundClientUpdates = list(); received_parameters = list()
+clientUpdateAmount = 0
 ALL_CURRENT_ROUND = 0
-MODEL_VERSION = 0
+MODEL_VERSION = 1
 MAX_TRAIN_ROUND = 3
+NUM_CLIENTS_CONTACTED_PER_ROUND = 3
 
 ## update_req.type == P
 def send_parameter():
@@ -60,6 +62,34 @@ def save_chunks_to_file(buffer_chunk, title):
 		fw.write(buffer_chunk)
 	return True
 ##
+## manage rounds and model version check
+def manage_rounds(nclient, current_round, buffer_chunk):
+	if ALL_CURRENT_ROUND == current_round:
+		clientUpdateAmount += 1
+		currentRoundClientUpdates.append(nclient)
+		if clientUpdateAmount >= NUM_CLIENTS_CONTACTED_PER_ROUND and len(currentRoundClientUpdates) > 0:
+			received_parameters.append(buffer_chunk)
+			if current_round >= MAX_NUM_ROUNDS:
+			
+			else:
+				clientUpdateAmount -= 1
+
+		return "RESP_ACY"
+
+
+def version_check(Mversion, Cround):
+	configuration = dict()
+	if MODEL_VERSION == Mversion: # not finish other client training
+		return [State.WAIT, configuration]
+	elif MODEL_VERSION != Mversion and MAX_TRAIN_ROUND == Cround: # finish all round traning
+		configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
+		configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
+		return ["FIN", configuration]
+	elif MODEL_VERSION != Mversion: #finish one round training
+		configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
+		configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
+		return [State.NOT_WAIT, configuration]
+##
 
 def manage_request(request):
 	for req in request:
@@ -85,6 +115,28 @@ def manage_request(request):
 			res_normal = [UpdateRep(type=req.update_req.type)]
 			for rn in res_normal:
 				yield transportResponse(update_rep=rn)
+		elif req.update_req.type == 'D':
+			rounds_state = manage_rounds(req.update_req.cname, req.update_req.current_round, req.update_req.buffer_chunk)
+			if rounds_state == "RESP_ACY": # still learning model
+				configuration = dict()
+				configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
+				configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
+				configuration['state'] = Scalar(scstring="RESP_ACY")
+
+				res_rounds = [UpdateRep(type=req.update_req.type, config=configuration)]
+				for rr in res_rounds:
+					yield transportResponse(update_rep=rr)
+		elif req.version_req.type == 'P':
+			now_state = version_check(req.version_req.model_version, req.version_req.current_round)
+			if now_state[0] == State.NOT_WAIT:
+				res_config = [now_state]
+				for rc in res_config:
+					yield transportResponse(version_rep=VersionRep(state=rc[0], buffer_chunk=send_parameter(), config=rc[1]))
+			elif now_state[0] == "FIN":
+
+			else:
+				for ns in [now_state]:
+					yield transportResponse(version_rep=VersionRep(state=ns[0], config=ns[1])
 
 class TransportService(TransportServiceServicer):
 	def transport(self, request, context):

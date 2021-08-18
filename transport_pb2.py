@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0ftransport.proto\x12\ttransport\"\xbb\x01\n\x08ReadyReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05\x63name\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.State\x12/\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1f.transport.ReadyReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\xd5\x01\n\tUpdateReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x12\n\x05\x63name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12\x15\n\x08\x66ile_len\x18\x06 \x01(\x05H\x04\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_stateB\x08\n\x06_cnameB\x0b\n\t_file_len\"y\n\x10transportRequest\x12(\n\tready_req\x18\x01 \x01(\x0b\x32\x13.transport.ReadyReqH\x00\x12*\n\nupdate_req\x18\x02 \x01(\x0b\x32\x14.transport.UpdateReqH\x00\x42\x0f\n\rrequest_oneof\"}\n\x08ReadyRep\x12/\n\x06\x63onfig\x18\x01 \x03(\x0b\x32\x1f.transport.ReadyRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"c\n\tUpdateRep\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_title\"{\n\x11transportResponse\x12(\n\tready_rep\x18\x01 \x01(\x0b\x32\x13.transport.ReadyRepH\x00\x12*\n\nupdate_rep\x18\x02 \x01(\x0b\x32\x14.transport.UpdateRepH\x00\x42\x10\n\x0eresponse_oneof\"r\n\x06Scalar\x12\x12\n\x08scdouble\x18\x01 \x01(\x01H\x00\x12\x11\n\x07scfloat\x18\x02 \x01(\x02H\x00\x12\x11\n\x07scint32\x18\x03 \x01(\x05H\x00\x12\x12\n\x08scstring\x18\x04 \x01(\tH\x00\x12\x10\n\x06scbool\x18\x05 \x01(\x08H\x00\x42\x08\n\x06scalar*@\n\x05State\x12\x08\n\x04NONE\x10\x00\x12\x06\n\x02ON\x10\x01\x12\x07\n\x03OFF\x10\x02\x12\x0c\n\x08TRAINING\x10\x03\x12\x0e\n\nTRAIN_DONE\x10\x04\x32`\n\x10TransportService\x12L\n\ttransport\x12\x1b.transport.transportRequest\x1a\x1c.transport.transportResponse\"\x00(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0ftransport.proto\x12\ttransport\"\xbb\x01\n\x08ReadyReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05\x63name\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.State\x12/\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1f.transport.ReadyReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\x83\x02\n\tUpdateReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x12\n\x05\x63name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12\x15\n\x08\x66ile_len\x18\x06 \x01(\x05H\x04\x88\x01\x01\x12\x1a\n\rcurrent_round\x18\x07 \x01(\x05H\x05\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_stateB\x08\n\x06_cnameB\x0b\n\t_file_lenB\x10\n\x0e_current_round\"v\n\nVersionReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x1a\n\rmodel_version\x18\x02 \x01(\x05H\x00\x88\x01\x01\x12\x1a\n\rcurrent_round\x18\x03 \x01(\x05H\x01\x88\x01\x01\x42\x10\n\x0e_model_versionB\x10\n\x0e_current_round\"\xa7\x01\n\x10transportRequest\x12(\n\tready_req\x18\x01 \x01(\x0b\x32\x13.transport.ReadyReqH\x00\x12*\n\nupdate_req\x18\x02 \x01(\x0b\x32\x14.transport.UpdateReqH\x00\x12,\n\x0bversion_req\x18\x03 \x01(\x0b\x32\x15.transport.VersionReqH\x00\x42\x0f\n\rrequest_oneof\"}\n\x08ReadyRep\x12/\n\x06\x63onfig\x18\x01 \x03(\x0b\x32\x1f.transport.ReadyRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\x87\x02\n\tUpdateRep\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x30\n\x06\x63onfig\x18\x05 \x03(\x0b\x32 .transport.UpdateRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_state\"\xdd\x01\n\nVersionRep\x12\x31\n\x06\x63onfig\x18\x01 \x03(\x0b\x32!.transport.VersionRep.ConfigEntry\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12$\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.StateH\x01\x88\x01\x01\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_state\"\xa9\x01\n\x11transportResponse\x12(\n\tready_rep\x18\x01 \x01(\x0b\x32\x13.transport.ReadyRepH\x00\x12*\n\nupdate_rep\x18\x02 \x01(\x0b\x32\x14.transport.UpdateRepH\x00\x12,\n\x0bversion_rep\x18\x03 \x01(\x0b\x32\x15.transport.VersionRepH\x00\x42\x10\n\x0eresponse_oneof\"r\n\x06Scalar\x12\x12\n\x08scdouble\x18\x01 \x01(\x01H\x00\x12\x11\n\x07scfloat\x18\x02 \x01(\x02H\x00\x12\x11\n\x07scint32\x18\x03 \x01(\x05H\x00\x12\x12\n\x08scstring\x18\x04 \x01(\tH\x00\x12\x10\n\x06scbool\x18\x05 \x01(\x08H\x00\x42\x08\n\x06scalar*X\n\x05State\x12\x08\n\x04NONE\x10\x00\x12\x06\n\x02ON\x10\x01\x12\x07\n\x03OFF\x10\x02\x12\x0c\n\x08TRAINING\x10\x03\x12\x0e\n\nTRAIN_DONE\x10\x04\x12\x08\n\x04WAIT\x10\x05\x12\x0c\n\x08NOT_WAIT\x10\x06\x32`\n\x10TransportService\x12L\n\ttransport\x12\x1b.transport.transportRequest\x1a\x1c.transport.transportResponse\"\x00(\x01\x30\x01\x62\x06proto3'
 )
 
 _STATE = _descriptor.EnumDescriptor(
@@ -55,11 +55,21 @@ _STATE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='WAIT', index=5, number=5,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='NOT_WAIT', index=6, number=6,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1028,
-  serialized_end=1092,
+  serialized_start=1677,
+  serialized_end=1765,
 )
 _sym_db.RegisterEnumDescriptor(_STATE)
 
@@ -69,6 +79,8 @@ ON = 1
 OFF = 2
 TRAINING = 3
 TRAIN_DONE = 4
+WAIT = 5
+NOT_WAIT = 6
 
 
 
@@ -213,6 +225,13 @@ _UPDATEREQ = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='current_round', full_name='transport.UpdateReq.current_round', index=6,
+      number=7, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -249,9 +268,70 @@ _UPDATEREQ = _descriptor.Descriptor(
       index=4, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_current_round', full_name='transport.UpdateReq._current_round',
+      index=5, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
   ],
   serialized_start=221,
-  serialized_end=434,
+  serialized_end=480,
+)
+
+
+_VERSIONREQ = _descriptor.Descriptor(
+  name='VersionReq',
+  full_name='transport.VersionReq',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='type', full_name='transport.VersionReq.type', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='model_version', full_name='transport.VersionReq.model_version', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='current_round', full_name='transport.VersionReq.current_round', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_model_version', full_name='transport.VersionReq._model_version',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_current_round', full_name='transport.VersionReq._current_round',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=482,
+  serialized_end=600,
 )
 
 
@@ -277,6 +357,13 @@ _TRANSPORTREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='version_req', full_name='transport.transportRequest.version_req', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -294,8 +381,8 @@ _TRANSPORTREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=436,
-  serialized_end=557,
+  serialized_start=603,
+  serialized_end=770,
 )
 
 
@@ -364,10 +451,48 @@ _READYREP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=559,
-  serialized_end=684,
+  serialized_start=772,
+  serialized_end=897,
 )
 
+
+_UPDATEREP_CONFIGENTRY = _descriptor.Descriptor(
+  name='ConfigEntry',
+  full_name='transport.UpdateRep.ConfigEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='transport.UpdateRep.ConfigEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='transport.UpdateRep.ConfigEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=b'8\001',
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=154,
+  serialized_end=218,
+)
 
 _UPDATEREP = _descriptor.Descriptor(
   name='UpdateRep',
@@ -398,10 +523,24 @@ _UPDATEREP = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='state', full_name='transport.UpdateRep.state', index=3,
+      number=4, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='config', full_name='transport.UpdateRep.config', index=4,
+      number=5, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_UPDATEREP_CONFIGENTRY, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -419,9 +558,108 @@ _UPDATEREP = _descriptor.Descriptor(
       index=1, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_state', full_name='transport.UpdateRep._state',
+      index=2, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
   ],
-  serialized_start=686,
-  serialized_end=785,
+  serialized_start=900,
+  serialized_end=1163,
+)
+
+
+_VERSIONREP_CONFIGENTRY = _descriptor.Descriptor(
+  name='ConfigEntry',
+  full_name='transport.VersionRep.ConfigEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='transport.VersionRep.ConfigEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='transport.VersionRep.ConfigEntry.value', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=b'8\001',
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=154,
+  serialized_end=218,
+)
+
+_VERSIONREP = _descriptor.Descriptor(
+  name='VersionRep',
+  full_name='transport.VersionRep',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='config', full_name='transport.VersionRep.config', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='buffer_chunk', full_name='transport.VersionRep.buffer_chunk', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='state', full_name='transport.VersionRep.state', index=2,
+      number=3, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[_VERSIONREP_CONFIGENTRY, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='_buffer_chunk', full_name='transport.VersionRep._buffer_chunk',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_state', full_name='transport.VersionRep._state',
+      index=1, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+  ],
+  serialized_start=1166,
+  serialized_end=1387,
 )
 
 
@@ -447,6 +685,13 @@ _TRANSPORTRESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='version_rep', full_name='transport.transportResponse.version_rep', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -464,8 +709,8 @@ _TRANSPORTRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=787,
-  serialized_end=910,
+  serialized_start=1390,
+  serialized_end=1559,
 )
 
 
@@ -529,8 +774,8 @@ _SCALAR = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=912,
-  serialized_end=1026,
+  serialized_start=1561,
+  serialized_end=1675,
 )
 
 _READYREQ_CONFIGENTRY.fields_by_name['value'].message_type = _SCALAR
@@ -553,31 +798,65 @@ _UPDATEREQ.fields_by_name['cname'].containing_oneof = _UPDATEREQ.oneofs_by_name[
 _UPDATEREQ.oneofs_by_name['_file_len'].fields.append(
   _UPDATEREQ.fields_by_name['file_len'])
 _UPDATEREQ.fields_by_name['file_len'].containing_oneof = _UPDATEREQ.oneofs_by_name['_file_len']
+_UPDATEREQ.oneofs_by_name['_current_round'].fields.append(
+  _UPDATEREQ.fields_by_name['current_round'])
+_UPDATEREQ.fields_by_name['current_round'].containing_oneof = _UPDATEREQ.oneofs_by_name['_current_round']
+_VERSIONREQ.oneofs_by_name['_model_version'].fields.append(
+  _VERSIONREQ.fields_by_name['model_version'])
+_VERSIONREQ.fields_by_name['model_version'].containing_oneof = _VERSIONREQ.oneofs_by_name['_model_version']
+_VERSIONREQ.oneofs_by_name['_current_round'].fields.append(
+  _VERSIONREQ.fields_by_name['current_round'])
+_VERSIONREQ.fields_by_name['current_round'].containing_oneof = _VERSIONREQ.oneofs_by_name['_current_round']
 _TRANSPORTREQUEST.fields_by_name['ready_req'].message_type = _READYREQ
 _TRANSPORTREQUEST.fields_by_name['update_req'].message_type = _UPDATEREQ
+_TRANSPORTREQUEST.fields_by_name['version_req'].message_type = _VERSIONREQ
 _TRANSPORTREQUEST.oneofs_by_name['request_oneof'].fields.append(
   _TRANSPORTREQUEST.fields_by_name['ready_req'])
 _TRANSPORTREQUEST.fields_by_name['ready_req'].containing_oneof = _TRANSPORTREQUEST.oneofs_by_name['request_oneof']
 _TRANSPORTREQUEST.oneofs_by_name['request_oneof'].fields.append(
   _TRANSPORTREQUEST.fields_by_name['update_req'])
 _TRANSPORTREQUEST.fields_by_name['update_req'].containing_oneof = _TRANSPORTREQUEST.oneofs_by_name['request_oneof']
+_TRANSPORTREQUEST.oneofs_by_name['request_oneof'].fields.append(
+  _TRANSPORTREQUEST.fields_by_name['version_req'])
+_TRANSPORTREQUEST.fields_by_name['version_req'].containing_oneof = _TRANSPORTREQUEST.oneofs_by_name['request_oneof']
 _READYREP_CONFIGENTRY.fields_by_name['value'].message_type = _SCALAR
 _READYREP_CONFIGENTRY.containing_type = _READYREP
 _READYREP.fields_by_name['config'].message_type = _READYREP_CONFIGENTRY
+_UPDATEREP_CONFIGENTRY.fields_by_name['value'].message_type = _SCALAR
+_UPDATEREP_CONFIGENTRY.containing_type = _UPDATEREP
+_UPDATEREP.fields_by_name['state'].enum_type = _STATE
+_UPDATEREP.fields_by_name['config'].message_type = _UPDATEREP_CONFIGENTRY
 _UPDATEREP.oneofs_by_name['_buffer_chunk'].fields.append(
   _UPDATEREP.fields_by_name['buffer_chunk'])
 _UPDATEREP.fields_by_name['buffer_chunk'].containing_oneof = _UPDATEREP.oneofs_by_name['_buffer_chunk']
 _UPDATEREP.oneofs_by_name['_title'].fields.append(
   _UPDATEREP.fields_by_name['title'])
 _UPDATEREP.fields_by_name['title'].containing_oneof = _UPDATEREP.oneofs_by_name['_title']
+_UPDATEREP.oneofs_by_name['_state'].fields.append(
+  _UPDATEREP.fields_by_name['state'])
+_UPDATEREP.fields_by_name['state'].containing_oneof = _UPDATEREP.oneofs_by_name['_state']
+_VERSIONREP_CONFIGENTRY.fields_by_name['value'].message_type = _SCALAR
+_VERSIONREP_CONFIGENTRY.containing_type = _VERSIONREP
+_VERSIONREP.fields_by_name['config'].message_type = _VERSIONREP_CONFIGENTRY
+_VERSIONREP.fields_by_name['state'].enum_type = _STATE
+_VERSIONREP.oneofs_by_name['_buffer_chunk'].fields.append(
+  _VERSIONREP.fields_by_name['buffer_chunk'])
+_VERSIONREP.fields_by_name['buffer_chunk'].containing_oneof = _VERSIONREP.oneofs_by_name['_buffer_chunk']
+_VERSIONREP.oneofs_by_name['_state'].fields.append(
+  _VERSIONREP.fields_by_name['state'])
+_VERSIONREP.fields_by_name['state'].containing_oneof = _VERSIONREP.oneofs_by_name['_state']
 _TRANSPORTRESPONSE.fields_by_name['ready_rep'].message_type = _READYREP
 _TRANSPORTRESPONSE.fields_by_name['update_rep'].message_type = _UPDATEREP
+_TRANSPORTRESPONSE.fields_by_name['version_rep'].message_type = _VERSIONREP
 _TRANSPORTRESPONSE.oneofs_by_name['response_oneof'].fields.append(
   _TRANSPORTRESPONSE.fields_by_name['ready_rep'])
 _TRANSPORTRESPONSE.fields_by_name['ready_rep'].containing_oneof = _TRANSPORTRESPONSE.oneofs_by_name['response_oneof']
 _TRANSPORTRESPONSE.oneofs_by_name['response_oneof'].fields.append(
   _TRANSPORTRESPONSE.fields_by_name['update_rep'])
 _TRANSPORTRESPONSE.fields_by_name['update_rep'].containing_oneof = _TRANSPORTRESPONSE.oneofs_by_name['response_oneof']
+_TRANSPORTRESPONSE.oneofs_by_name['response_oneof'].fields.append(
+  _TRANSPORTRESPONSE.fields_by_name['version_rep'])
+_TRANSPORTRESPONSE.fields_by_name['version_rep'].containing_oneof = _TRANSPORTRESPONSE.oneofs_by_name['response_oneof']
 _SCALAR.oneofs_by_name['scalar'].fields.append(
   _SCALAR.fields_by_name['scdouble'])
 _SCALAR.fields_by_name['scdouble'].containing_oneof = _SCALAR.oneofs_by_name['scalar']
@@ -595,9 +874,11 @@ _SCALAR.oneofs_by_name['scalar'].fields.append(
 _SCALAR.fields_by_name['scbool'].containing_oneof = _SCALAR.oneofs_by_name['scalar']
 DESCRIPTOR.message_types_by_name['ReadyReq'] = _READYREQ
 DESCRIPTOR.message_types_by_name['UpdateReq'] = _UPDATEREQ
+DESCRIPTOR.message_types_by_name['VersionReq'] = _VERSIONREQ
 DESCRIPTOR.message_types_by_name['transportRequest'] = _TRANSPORTREQUEST
 DESCRIPTOR.message_types_by_name['ReadyRep'] = _READYREP
 DESCRIPTOR.message_types_by_name['UpdateRep'] = _UPDATEREP
+DESCRIPTOR.message_types_by_name['VersionRep'] = _VERSIONREP
 DESCRIPTOR.message_types_by_name['transportResponse'] = _TRANSPORTRESPONSE
 DESCRIPTOR.message_types_by_name['Scalar'] = _SCALAR
 DESCRIPTOR.enum_types_by_name['State'] = _STATE
@@ -625,6 +906,13 @@ UpdateReq = _reflection.GeneratedProtocolMessageType('UpdateReq', (_message.Mess
   })
 _sym_db.RegisterMessage(UpdateReq)
 
+VersionReq = _reflection.GeneratedProtocolMessageType('VersionReq', (_message.Message,), {
+  'DESCRIPTOR' : _VERSIONREQ,
+  '__module__' : 'transport_pb2'
+  # @@protoc_insertion_point(class_scope:transport.VersionReq)
+  })
+_sym_db.RegisterMessage(VersionReq)
+
 transportRequest = _reflection.GeneratedProtocolMessageType('transportRequest', (_message.Message,), {
   'DESCRIPTOR' : _TRANSPORTREQUEST,
   '__module__' : 'transport_pb2'
@@ -648,11 +936,34 @@ _sym_db.RegisterMessage(ReadyRep)
 _sym_db.RegisterMessage(ReadyRep.ConfigEntry)
 
 UpdateRep = _reflection.GeneratedProtocolMessageType('UpdateRep', (_message.Message,), {
+
+  'ConfigEntry' : _reflection.GeneratedProtocolMessageType('ConfigEntry', (_message.Message,), {
+    'DESCRIPTOR' : _UPDATEREP_CONFIGENTRY,
+    '__module__' : 'transport_pb2'
+    # @@protoc_insertion_point(class_scope:transport.UpdateRep.ConfigEntry)
+    })
+  ,
   'DESCRIPTOR' : _UPDATEREP,
   '__module__' : 'transport_pb2'
   # @@protoc_insertion_point(class_scope:transport.UpdateRep)
   })
 _sym_db.RegisterMessage(UpdateRep)
+_sym_db.RegisterMessage(UpdateRep.ConfigEntry)
+
+VersionRep = _reflection.GeneratedProtocolMessageType('VersionRep', (_message.Message,), {
+
+  'ConfigEntry' : _reflection.GeneratedProtocolMessageType('ConfigEntry', (_message.Message,), {
+    'DESCRIPTOR' : _VERSIONREP_CONFIGENTRY,
+    '__module__' : 'transport_pb2'
+    # @@protoc_insertion_point(class_scope:transport.VersionRep.ConfigEntry)
+    })
+  ,
+  'DESCRIPTOR' : _VERSIONREP,
+  '__module__' : 'transport_pb2'
+  # @@protoc_insertion_point(class_scope:transport.VersionRep)
+  })
+_sym_db.RegisterMessage(VersionRep)
+_sym_db.RegisterMessage(VersionRep.ConfigEntry)
 
 transportResponse = _reflection.GeneratedProtocolMessageType('transportResponse', (_message.Message,), {
   'DESCRIPTOR' : _TRANSPORTRESPONSE,
@@ -671,6 +982,8 @@ _sym_db.RegisterMessage(Scalar)
 
 _READYREQ_CONFIGENTRY._options = None
 _READYREP_CONFIGENTRY._options = None
+_UPDATEREP_CONFIGENTRY._options = None
+_VERSIONREP_CONFIGENTRY._options = None
 
 _TRANSPORTSERVICE = _descriptor.ServiceDescriptor(
   name='TransportService',
@@ -679,8 +992,8 @@ _TRANSPORTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1094,
-  serialized_end=1190,
+  serialized_start=1767,
+  serialized_end=1863,
   methods=[
   _descriptor.MethodDescriptor(
     name='transport',

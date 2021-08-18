@@ -60,7 +60,7 @@ class learning_fit(object):
 		else:
 			return None # another model?
 
-	def train_model_tosave(self):
+	def train_model_tosave(self, params):
 		earlystopping_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
 		logdir = f"send_logs/logs/{datetime.now().strftime('%Y%m%d-%H%M%S')}-{self.round}"
 		tensorboard_callback = tf.keras.callbacks.TensorBoard(
@@ -72,7 +72,10 @@ class learning_fit(object):
 														embeddings_freq=1)
 
 		local_model = self.build_model()
-		local_model.set_weights(self.params)
+		if params != None:
+			local_model.set_weights(params)
+		else:
+			local_model.set_weights(self.params)
 
 		gen_train_data = self.gen_train_val_data()
 		local_model.fit_generator(gen_train_data, epochs=self.epochs, callbacks=[earlystopping_callback, tensorboard_callback])
@@ -83,10 +86,10 @@ class learning_fit(object):
 			
 		return local_model
 
-	def manage_train(self): # cr:current_round
+	def manage_train(self, params=None): # cr:current_round
 		if self.params == list():
 			return []
-		lmodel = self.train_model_tosave()
+		lmodel = self.train_model_tosave(params)
 		params = lmodel.get_weights()
 		print("### Save model weight to ./saved_weight/ ###")
 		with open('./saved_weight/weights.pickle', 'wb') as fw:

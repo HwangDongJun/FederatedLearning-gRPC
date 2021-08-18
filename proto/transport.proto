@@ -12,6 +12,8 @@ enum State {
 	OFF = 2;
 	TRAINING = 3;
 	TRAIN_DONE = 4;
+	WAIT = 5;
+	NOT_WAIT = 6;
 }
 
 message ReadyReq {
@@ -27,12 +29,19 @@ message UpdateReq {
 	optional State state = 4;
 	optional string cname = 5;
 	optional int32 file_len = 6;
+	optional int32 current_round = 7;
+}
+message VersionReq {
+	string type = 1;
+	optional int32 model_version = 2;
+	optional int32 current_round = 3;
 }
 
 message transportRequest {
 	oneof request_oneof {
 		ReadyReq ready_req = 1;
 		UpdateReq update_req = 2;
+		VersionReq version_req = 3;
 	}
 }
 
@@ -43,12 +52,20 @@ message UpdateRep {
 	string type = 1;
 	optional bytes buffer_chunk = 2;
 	optional string title = 3;
+	optional State state = 4;
+	map<string, Scalar> config = 5;
+}
+message VersionRep {
+	map<string, Scalar> config = 1;
+	optional bytes buffer_chunk = 2;
+	optional State state = 3;
 }
 
 message transportResponse {
 	oneof response_oneof {
 		ReadyRep ready_rep = 1;
 		UpdateRep update_rep = 2;
+		VersionRep version_rep = 3;
 	}
 }
 
