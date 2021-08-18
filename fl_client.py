@@ -32,13 +32,12 @@ def get_file_chunks(filename):
 		while True:
 			piece = f.read(CHUNK_SIZE)
 			if len(piece) == 0:
-				yield UpdateReq(type="L", title=filename, state=State.TRAIN_DONE)
-			yield UpdateReq(type="L", buffer_chunk=piece, title=filename, state=State.TRAIN_DONE)
+				return 
+			yield transportRequest(update_req=UpdateReq(type="L", buffer_chunk=piece, title=filename, state=State.TRAIN_DONE, file_len=len(piece)))
 
 def send_logs(stub, in_file_name):
 	chunks_generator = get_file_chunks(in_file_name)
-	print(chunks_generator)
-	logs_response = stub.transport(transportRequest(update_req=chunks_generator))
+	logs_response = stub.transport(chunks_generator)
 
 ##
 ## send training state to server
@@ -84,6 +83,8 @@ def send_message(stub):
 		for fname in files:
 			full_fname = os.path.join(root, fname)
 			send_logs(stub, full_fname)
+
+	# 
 
 def run():
 	options = [('grpc.max_receive_message_length', 512*1024*1024), ('grcp.max_send_message_length', 512*1024*1024)]

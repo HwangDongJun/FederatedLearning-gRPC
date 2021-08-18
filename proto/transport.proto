@@ -26,6 +26,7 @@ message UpdateReq {
 	optional string title = 3;
 	optional State state = 4;
 	optional string cname = 5;
+	optional int32 file_len = 6;
 }
 
 message transportRequest {

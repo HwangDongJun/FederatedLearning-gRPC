@@ -1,5 +1,6 @@
 from concurrent import futures
 
+import os
 import time
 import grpc
 from transport_pb2 import Scalar, transportResponse, ReadyRep, UpdateRep
@@ -53,24 +54,15 @@ def ready_client(name, config):
 
 ## save logs file from client
 def save_chunks_to_file(buffer_chunk, title):
-	print("### print chunks ###")
-	print(buffer_chunk)
-	print(title)
+	if not os.path.exists('.'+'/'.join(title[11:].split('/')[:-1])):
+		os.makedirs('.'+'/'.join(title[11:].split('/')[:-1]))
+	with open('.'+title[11:], 'wb') as fw:
+		fw.write(buffer_chunk)
 	return True
-	'''
-	for chunk in chunks:
-		print("### print chunk ###")
-		print(chunk)
-		if not os.path.exists('.'+'/'.join(chunk.title[11:].split('/')[:-1])):
-			os.makedirs('.'+'/'.join(chunk.title[11:].split('/')[:-1]))
-		with open('.'+chunk.title[11:], 'wb') as fw:
-			fw.write(chunk.buffer_chunk)
-	'''
 ##
 
 def manage_request(request):
 	for req in request:
-		print(req)
 		if req.ready_req.type == 'R':
 			res_config = [ready_client(req.ready_req.cname, req.ready_req.config)]
 			for rc in res_config:
