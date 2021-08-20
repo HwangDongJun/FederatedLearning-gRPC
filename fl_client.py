@@ -94,33 +94,53 @@ def send_message(stub):
 			full_fname = os.path.join(root, fname)
 			send_logs(stub, full_fname)
 
-	# train done
-	print("### Deliver model state: TRAIN DONE to server ###")
-	traindone = request_traindone(client_name, ready_info_dict['cr'], get_params)
-	response_traindone = stub.transport(traindone)
+	while ready_info_dict['cr'] <= ready_info_dict['mtr']:
+		# train done
+		print("### Deliver model state: TRAIN DONE to server ###")
+		traindone = request_traindone(client_name, ready_info_dict['cr'], get_params)
+		response_traindone = stub.transport(traindone)										## 나 학습 다했어!
+	
+		oneres_traindone = None; oneres_newround = None
+		for rt in response_traindone:
+			oneres_traindone = rt
+		# case 1: still learning other model -> state: RESP_ACY
+		if oneres_traindone.update_rep.config['state'].scstring == 'RESP_ACY':				## 아직 다른거 학습중이야 기다려
+			change_model_version = False
+			while True:																		## 응...
+				if change_model_version:
+					break
+				time.sleep(30)																## 30초만 자야지
+	
+				# check model version
+				version = request_model_version(ready_info_dict['mv'], ready_info_dict['cr'])	## 끝났어?
+				response_version = stub.transport(version)
+				for rv in response_version:
+					oneres_newround = rv
+				if oneres_newround.version_rep.state == State.NOT_WAIT:						## 어 끝났어!
+					ready_info_dict['cr'] = oneres_newround.version_rep.config['current_round'].scint32
+					ready_info_dict['mv'] = oneres_newround.version_rep.config['model_version'].scint32
+					change_model_version = True
+																							## 아니 안끝났어 더 기다려!
+			# train next round
+			get_params = class_for_learning.manage_train(params=oneres_newround.version_rep.buffer_chunk)	## 다음 라운드 학습해야지
+		# case 2: finish learning one round -> state: RESP_ARY
+		elif oneres_traindone.update_rep.config['state'].scstring == 'RESP_ARY':			## 바로 다음 라운드 학습해~
+			# train client
+			training = request_training(client_name)
+			response_training = stub.transport(training)									## 나 학습 시작한다~
+			
+			ready_info_dict['cr'] = oneres_traindone.update_rep.config['current_round'].scint32
+			ready_info_dict['mv'] = oneres_traindone.update_rep.config['model_version'].scint32
 
-	oneres_traindone = None; oneres_version = None
-	for rt in response_traindone:
-		oneres_traindone = rt
-	# case 1: still learning model -> state: RESP_ACY
-	if oneres_traindone.update_rep.config['state'].scstring == 'RESP_ACY':
-		change_model_version = False
-		while True:
-			if change_model_version:
-				break
-			time.sleep(30)
+			get_params = class_for_learning.manage_train(params=oneres_traindone.update_rep.buffer_chunk)	## 다음 라운드 학습!
 
-			# check model version
-			version = request_model_version(ready_info_dict['mv'], ready_info_dict['cr'])
-			response_version = stub.transport(version)
-			for rv in response_version:
-				oneres_version = rv
-			if oneres_version.version_rep.state == State.NOT_WAIT:
-				change_model_version = True
-
-		# train next round
-		get_params = class_for_learning.manage_train(params=oneres_version.version_rep.buffer_chunk)
-	elif oneres_traindone.update_rep.config['state'].scstring == '
+			## for root...		## logs파일 보내는 코드 함수화해서 여기에 넣기
+		# case 3: finish all round training
+		elif oneres_traindone.update_rep.config['state'].scstring == 'FIN':					## 학습 끝났어!
+			ready_info_dict['cr'] = oneres_traindone.update_rep.config['current_round'].scint32
+			ready_info_dict['mv'] = oneres_traindone.update_rep.config['model_version'].scint32
+			
+			#??? 여기부터 구현해야함
 
 def run():
 	options = [('grpc.max_receive_message_length', 512*1024*1024), ('grcp.max_send_message_length', 512*1024*1024)]

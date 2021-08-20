@@ -3,6 +3,7 @@ from concurrent import futures
 import os
 import time
 import grpc
+import pickle
 from transport_pb2 import Scalar, transportResponse, ReadyRep, UpdateRep
 from transport_pb2_grpc import TransportServiceServicer, add_TransportServiceServicer_to_server
 import numpy as np
@@ -63,16 +64,42 @@ def save_chunks_to_file(buffer_chunk, title):
 	return True
 ##
 ## manage rounds and model version check
+def updateWeight(round_client):
+	averaged_weight = list()
+	for wcl in received_parameters:
+		if len(averaged_weight) == 0:
+			averaged_weight = received_parameters
+		else:
+			for i, wc in enumerate(wcl):
+				averaged_weight[i] = averaged_weight[i] + wc
+
+	for i, aw in enumerate(averaged_weight):
+		averaged_weight[i] = aw / round_client
+
+	with open('./server_weights/weights.pickle', 'wb') as fw:
+		pickle.dump(averaged_weight, fw)
+
 def manage_rounds(nclient, current_round, buffer_chunk):
 	if ALL_CURRENT_ROUND == current_round:
 		clientUpdateAmount += 1
 		currentRoundClientUpdates.append(nclient)
+		received_parameters.append(buffer_chunk)
+
 		if clientUpdateAmount >= NUM_CLIENTS_CONTACTED_PER_ROUND and len(currentRoundClientUpdates) > 0:
-			received_parameters.append(buffer_chunk)
+			updateWeight(len(currentRoundClientUpdates))
 			if current_round >= MAX_NUM_ROUNDS:
-			
+				### stop_and_eval() => 아직 구현은 안함... 서버에서 검증하는 코드가 필요한지?
+				ALL_CURRENT_ROUND += 1
+				MODEL_VERSION += 1
+				
+				return "FIN"
 			else:
-				clientUpdateAmount -= 1
+				clientUpdateAmount = 0
+				currentRoundClientUpdates.clear()
+				ALL_CURRENT_ROUND += 1
+				MODEL_VERSION += 1
+
+				return "RESP_ARY"
 
 		return "RESP_ACY"
 
@@ -115,14 +142,22 @@ def manage_request(request):
 			res_normal = [UpdateRep(type=req.update_req.type)]
 			for rn in res_normal:
 				yield transportResponse(update_rep=rn)
-		elif req.update_req.type == 'D':
+		elif req.update_req.type == 'D':																## 학습이 끝났는데 뭐해야해?
+			configuration = dict()
 			rounds_state = manage_rounds(req.update_req.cname, req.update_req.current_round, req.update_req.buffer_chunk)
-			if rounds_state == "RESP_ACY": # still learning model
-				configuration = dict()
-				configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
-				configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
-				configuration['state'] = Scalar(scstring="RESP_ACY")
 
+			configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
+			configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
+			configuration['state'] = Scalar(scstring=rounds_state)
+			if rounds_state == "RESP_ACY": # still learning model										## 딴거 학습중이니까 좀있다가 다시 물어봐
+				res_rounds = [UpdateRep(type=req.update_req.type, config=configuration)]
+				for rr in res_rounds:
+					yield transportResponse(update_rep=rr)
+			elif rounds_state == "RESP_ARY":															## 학습 다 끝났네. 바로 다음 라운드 학습해
+				res_rounds = [UpdateRep(type=req.update_req.type, buffer_chunk=send_parameter(), config=configuration)]
+				for rr in res_rounds:
+					yield transportResponse(update_rep=rr)
+			elif rounds_state == "FIN":																	## 학습 아예 끝났어!
 				res_rounds = [UpdateRep(type=req.update_req.type, config=configuration)]
 				for rr in res_rounds:
 					yield transportResponse(update_rep=rr)
