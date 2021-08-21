@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import os
 import random
+import pickle
 import grpc
 from transport_pb2 import Scalar, transportRequest, ReadyReq, UpdateReq, State
 from transport_pb2_grpc import TransportServiceStub
@@ -38,6 +39,8 @@ def get_file_chunks(filename):
 def send_logs(stub, in_file_name):
 	chunks_generator = get_file_chunks(in_file_name)
 	logs_response = stub.transport(chunks_generator)
+	for lr in logs_response:
+		print(f"Finish deliver file: {lr.update_rep.title}, type: {lr.update_rep.type}")
 
 ##
 ## send training state to server
@@ -47,7 +50,7 @@ def request_training(nclient):
 		yield transportRequest(update_req=tr)
 
 def request_traindone(nclient, cr, bc):
-	traindone_request = [UpdateReq(type="D", buffer_chunk=bc, cname=nclient, state=State.TRAIN_DONE, current_round=cr)]
+	traindone_request = [UpdateReq(type="D", buffer_chunk=pickle.dumps(bc), state=State.TRAIN_DONE, cname=nclient, current_round=cr)]
 	for tr in traindone_request:
 		yield transportRequest(update_req=tr)
 
@@ -83,9 +86,8 @@ def send_message(stub):
 	training = request_training(client_name)
 	response_training = stub.transport(training)
 
-	print(f"### Model Training - Round: {ready_info_dict['cr']} ###")
-	get_params = class_for_learning.manage_train() # model fit
-
+	class_for_learning.manage_train(cr=ready_info_dict['cr']) # model fit
+	'''
 	# update complete
 	## send logs file to server
 	print("### Upload model training log files ###")
@@ -93,10 +95,14 @@ def send_message(stub):
 		for fname in files:
 			full_fname = os.path.join(root, fname)
 			send_logs(stub, full_fname)
-
+	'''
+	
+	get_params = list()
 	while ready_info_dict['cr'] <= ready_info_dict['mtr']:
 		# train done
 		print("### Deliver model state: TRAIN DONE to server ###")
+		with open('./saved_weight/weights.pickle', 'rb') as fr:
+			get_params = pickle.load(fr)
 		traindone = request_traindone(client_name, ready_info_dict['cr'], get_params)
 		response_traindone = stub.transport(traindone)										## 나 학습 다했어!
 	
@@ -122,7 +128,7 @@ def send_message(stub):
 					change_model_version = True
 																							## 아니 안끝났어 더 기다려!
 			# train next round
-			get_params = class_for_learning.manage_train(params=oneres_newround.version_rep.buffer_chunk)	## 다음 라운드 학습해야지
+			get_params = class_for_learning.manage_train(params=oneres_newround.version_rep.buffer_chunk, cr=ready_info_dict['cr'])	 ## 다음 라운드 학습해야지
 		# case 2: finish learning one round -> state: RESP_ARY
 		elif oneres_traindone.update_rep.config['state'].scstring == 'RESP_ARY':			## 바로 다음 라운드 학습해~
 			# train client
@@ -132,14 +138,15 @@ def send_message(stub):
 			ready_info_dict['cr'] = oneres_traindone.update_rep.config['current_round'].scint32
 			ready_info_dict['mv'] = oneres_traindone.update_rep.config['model_version'].scint32
 
-			get_params = class_for_learning.manage_train(params=oneres_traindone.update_rep.buffer_chunk)	## 다음 라운드 학습!
+			get_params = class_for_learning.manage_train(params=oneres_traindone.update_rep.buffer_chunk, cr=ready_info_dict['cr'])	## 다음 라운드 학습!
 
 			## for root...		## logs파일 보내는 코드 함수화해서 여기에 넣기
 		# case 3: finish all round training
 		elif oneres_traindone.update_rep.config['state'].scstring == 'FIN':					## 학습 끝났어!
 			ready_info_dict['cr'] = oneres_traindone.update_rep.config['current_round'].scint32
 			ready_info_dict['mv'] = oneres_traindone.update_rep.config['model_version'].scint32
-			
+		
+			print("all training finish")
 			#??? 여기부터 구현해야함
 
 def run():

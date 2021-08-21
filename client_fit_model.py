@@ -86,12 +86,15 @@ class learning_fit(object):
 			
 		return local_model
 
-	def manage_train(self, params=None): # cr:current_round
+	def manage_train(self, params=None, cr=None): # cr:current_round
+		print(f"### Model Training - Round: {cr} ###")
 		if self.params == list():
 			return []
+
+		if params != None:
+			params = pickle.loads(params)
 		lmodel = self.train_model_tosave(params)
 		params = lmodel.get_weights()
 		print("### Save model weight to ./saved_weight/ ###")
 		with open('./saved_weight/weights.pickle', 'wb') as fw:
 			pickle.dump(params, fw)
-		return params
