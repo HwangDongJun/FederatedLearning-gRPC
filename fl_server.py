@@ -2,8 +2,9 @@ from concurrent import futures
 
 import os
 import time
-import grpc
 import pickle
+import threading
+import grpc
 from transport_pb2 import Scalar, transportResponse, ReadyRep, UpdateRep
 from transport_pb2_grpc import TransportServiceServicer, add_TransportServiceServicer_to_server
 import numpy as np
@@ -14,8 +15,9 @@ readyClientSids = list(); currentRoundClientUpdates = list(); received_parameter
 clientUpdateAmount = 0
 ALL_CURRENT_ROUND = 0
 MODEL_VERSION = 1
-MAX_NUM_ROUND = 3
+MAX_NUM_ROUND = 5
 NUM_CLIENTS_CONTACTED_PER_ROUND = 0
+CHECK_CLIENT_TRAINING = False; CHECK_TRAIN_TIMER = False
 
 ## update_req.type == P
 def send_parameter():
@@ -34,29 +36,49 @@ def trainNextRound(current_round):
 
 	return model_evalResult['loss'], model_evalResult['accuracy']
 
+## timer
+def client_training_check_timer():
+	global CHECK_CLIENT_TRAINING
+	time.sleep(10)
+	CHECK_CLIENT_TRAINING = True
+
 def ready_client(name, config):
 	global ALL_CURRENT_ROUND; global NUM_CLIENTS_CONTACTED_PER_ROUND
+	global CHECK_CLIENT_TRAINING; global CHECK_TRAIN_TIMER
+
+	if not CHECK_TRAIN_TIMER:
+		CHECK_TRAIN_TIMER = True
+		t = threading.Thread(target=client_training_check_timer)
+		t.start()
 
 	configuration = dict()
+	if not CHECK_CLIENT_TRAINING:
+		time.sleep(5)
+		if name not in readyClientSids:
+			readyClientSids.append(name)
+			NUM_CLIENTS_CONTACTED_PER_ROUND += 1
+	
+		if name in readyClientSids and config['current_round'].scint32 == 0:
+			print("### Check Train Round ###")
+			current_round = config['current_round'].scint32
 
-	if name not in readyClientSids:
-		readyClientSids.append(name)
-		NUM_CLIENTS_CONTACTED_PER_ROUND += 1
+			#model_loss, model_acc = trainNextRound(current_round)
 
-	if name in readyClientSids and config['current_round'].scint32 == 0:
-		print("### Check Train Round ###")
-		current_round = config['current_round'].scint32
-		model_loss, model_acc = trainNextRound(current_round)
-		ALL_CURRENT_ROUND = current_round + 1
+			ALL_CURRENT_ROUND = current_round + 1
 
-		configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
-		configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
-		configuration['model_acc'] = Scalar(scfloat=model_acc)
-		configuration['model_loss'] = Scalar(scfloat=model_loss)
-		configuration['max_train_round'] = Scalar(scint32=MAX_NUM_ROUND)
-		configuration['model_type'] = Scalar(scstring="mobilenet_v2")
-
-	return configuration
+			configuration['state'] = Scalar(scstring="SW")
+			configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
+			configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
+#configuration['model_acc'] = Scalar(scfloat=model_acc)
+#configuration['model_loss'] = Scalar(scfloat=model_loss)
+			configuration['max_train_round'] = Scalar(scint32=MAX_NUM_ROUND)
+			configuration['model_type'] = Scalar(scstring="mobilenet_v2")
+	
+		return configuration
+	else:
+		# can't participate in training
+		configuration['state'] = Scalar(scstring="CTW")
+		return configuration
 
 ## save logs file from client
 def save_chunks_to_file(buffer_chunk, title):
@@ -115,6 +137,7 @@ def manage_rounds(nclient, current_round, buffer_chunk):
 
 def version_check(Mversion, Cround):
 	configuration = dict()
+	print(MODEL_VERSION, Mversion)
 	if MODEL_VERSION == Mversion: # not finish other client training
 		return [State.WAIT, configuration]
 	elif MODEL_VERSION != Mversion and MAX_NUM_ROUND == Cround: # finish all round traning
@@ -153,13 +176,13 @@ def manage_request(request):
 				yield transportResponse(update_rep=rn)
 		elif req.update_req.type == 'D':																## 학습이 끝났는데 뭐해야해?
 			configuration = dict()
-			print("Start rounds management")
+			print("### Start rounds management ###")
 			rounds_state = manage_rounds(req.update_req.cname, req.update_req.current_round, pickle.loads(req.update_req.buffer_chunk))
 
 			configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
 			configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
 			configuration['state'] = Scalar(scstring=rounds_state)
-			print(f"Finish management, current state: {rounds_state}")
+			print(f"### Current state: {rounds_state} ###")
 			if rounds_state == "RESP_ACY": # still learning model										## 딴거 학습중이니까 좀있다가 다시 물어봐
 				res_rounds = [UpdateRep(type=req.update_req.type, config=configuration)]
 				for rr in res_rounds:
@@ -173,11 +196,16 @@ def manage_request(request):
 				for rr in res_rounds:
 					yield transportResponse(update_rep=rr)
 		elif req.version_req.type == 'P':
-			now_state = version_check(req.version_req.model_version, req.version_req.current_round)
+			print(req)
+			now_state = version_check(req.version_req.config['model_version'].scint32, req.version_req.config['current_round'].scint32)
+			print(now_state)
 			if now_state[0] == State.NOT_WAIT:
-				for rc in [now_state]:
-					yield transportResponse(version_rep=VersionRep(state=rc[0], buffer_chunk=send_parameter(), config=rc[1]))
+				for ns in [now_state]:
+					yield transportResponse(version_rep=VersionRep(state=ns[0], buffer_chunk=send_parameter(), config=ns[1]))
 			elif now_state[0] == "FIN":
+				for ns in [now_state]:
+					yield transportResponse(version_rep=VersionRep(state=ns[0], config=ns[1]))
+			else: ## "WAIT"
 				for ns in [now_state]:
 					yield transportResponse(version_rep=VersionRep(state=ns[0], config=ns[1]))
 

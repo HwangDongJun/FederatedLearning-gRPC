@@ -61,7 +61,7 @@ class learning_fit(object):
 			return None # another model?
 
 	def train_model_tosave(self, params):
-		earlystopping_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
+		earlystopping_callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=5)
 		logdir = f"send_logs/logs/{datetime.now().strftime('%Y%m%d-%H%M%S')}-{self.round}"
 		tensorboard_callback = tf.keras.callbacks.TensorBoard(
 														log_dir=logdir,
