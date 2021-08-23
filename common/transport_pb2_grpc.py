@@ -2,7 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import transport_pb2 as transport__pb2
+#import transport_pb2 as transport__pb2
+from . import transport_pb2 as transport__pb2
 
 
 class TransportServiceStub(object):

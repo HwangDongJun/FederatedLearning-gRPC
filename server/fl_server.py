@@ -4,12 +4,15 @@ import os
 import time
 import pickle
 import threading
-import grpc
-from transport_pb2 import Scalar, transportResponse, ReadyRep, UpdateRep, VersionRep, State
-from transport_pb2_grpc import TransportServiceServicer, add_TransportServiceServicer_to_server
 import numpy as np
 
 import model_evaluate
+
+import grpc
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from common.transport_pb2 import Scalar, transportResponse, ReadyRep, UpdateRep, VersionRep, State
+from common.transport_pb2_grpc import TransportServiceServicer, add_TransportServiceServicer_to_server
 
 readyClientSids = list(); currentRoundClientUpdates = list(); received_parameters = list()
 clientUpdateAmount = 0

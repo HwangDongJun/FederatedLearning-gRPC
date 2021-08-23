@@ -4,11 +4,14 @@ import os
 import time
 import random
 import pickle
-import grpc
-from transport_pb2 import Scalar, transportRequest, ReadyReq, UpdateReq, VersionReq, State
-from transport_pb2_grpc import TransportServiceStub
 
 from client_fit_model import learning_fit
+
+import grpc
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from common.transport_pb2 import Scalar, transportRequest, ReadyReq, UpdateReq, VersionReq, State
+from common.transport_pb2_grpc import TransportServiceStub
 
 def request_parameter():
 	update_request = [UpdateReq(type="P")]
