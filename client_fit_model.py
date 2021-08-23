@@ -28,7 +28,7 @@ class learning_fit(object):
 	def gen_train_val_data(self, ims=(224, 224), cn=np.array(['0', '1', '2', '3', '4'])):
 		gen_train, gen_val = self.image_generator()
 
-		train_data_dir = os.path.abspath('/home/dnlab/Downloads/data_balance/train/')
+		train_data_dir = os.path.abspath('/home/dnlab2020/Downloads/data_balance/grpc_train/train/')
 		train_data_gen = gen_train.flow_from_directory(directory=str(train_data_dir),
 														batch_size=self.batch_size,
 														color_mode='rgb',

@@ -5,7 +5,7 @@ import time
 import pickle
 import threading
 import grpc
-from transport_pb2 import Scalar, transportResponse, ReadyRep, UpdateRep
+from transport_pb2 import Scalar, transportResponse, ReadyRep, UpdateRep, VersionRep, State
 from transport_pb2_grpc import TransportServiceServicer, add_TransportServiceServicer_to_server
 import numpy as np
 
@@ -137,7 +137,6 @@ def manage_rounds(nclient, current_round, buffer_chunk):
 
 def version_check(Mversion, Cround):
 	configuration = dict()
-	print(MODEL_VERSION, Mversion)
 	if MODEL_VERSION == Mversion: # not finish other client training
 		return [State.WAIT, configuration]
 	elif MODEL_VERSION != Mversion and MAX_NUM_ROUND == Cround: # finish all round traning
@@ -196,9 +195,7 @@ def manage_request(request):
 				for rr in res_rounds:
 					yield transportResponse(update_rep=rr)
 		elif req.version_req.type == 'P':
-			print(req)
 			now_state = version_check(req.version_req.config['model_version'].scint32, req.version_req.config['current_round'].scint32)
-			print(now_state)
 			if now_state[0] == State.NOT_WAIT:
 				for ns in [now_state]:
 					yield transportResponse(version_rep=VersionRep(state=ns[0], buffer_chunk=send_parameter(), config=ns[1]))

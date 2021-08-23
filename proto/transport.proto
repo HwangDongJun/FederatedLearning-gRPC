@@ -33,8 +33,7 @@ message UpdateReq {
 }
 message VersionReq {
 	string type = 1;
-	optional int32 model_version = 2;
-	optional int32 current_round = 3;
+	map<string, Scalar> config = 2;
 }
 
 message transportRequest {

@@ -5,7 +5,7 @@ import time
 import random
 import pickle
 import grpc
-from transport_pb2 import Scalar, transportRequest, ReadyReq, UpdateReq, State
+from transport_pb2 import Scalar, transportRequest, ReadyReq, UpdateReq, VersionReq, State
 from transport_pb2_grpc import TransportServiceStub
 
 from client_fit_model import learning_fit
@@ -57,8 +57,8 @@ def request_traindone(nclient, cr, bc):
 
 def request_model_version(mv, cr):
 	configuration = dict()
-	configuration['model_version'] = mv
-	configuration['current_round'] = cr
+	configuration['model_version'] = Scalar(scint32=mv)
+	configuration['current_round'] = Scalar(scint32=cr)
 	version_request = [VersionReq(type="P", config=configuration)]
 	for vr in version_request:
 		yield transportRequest(version_req=vr)
@@ -125,7 +125,7 @@ def send_message(stub):
 				while True:																		## 응...
 					if change_model_version:
 						break
-					time.sleep(10)														## 30초만 자야지
+					time.sleep(20)														## 30초만 자야지
 		
 					# check model version
 					version = request_model_version(ready_info_dict['mv'], ready_info_dict['cr'])	## 끝났어?
