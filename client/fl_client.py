@@ -164,7 +164,7 @@ def send_message(stub):
 
 def run():
 	options = [('grpc.max_receive_message_length', 512*1024*1024), ('grcp.max_send_message_length', 512*1024*1024)]
-	channel = grpc.insecure_channel('localhost:8890', options=options)
+	channel = grpc.insecure_channel('0.0.0.0:8890', options=options)
 	stub = TransportServiceStub(channel)
 	send_message(stub)
 

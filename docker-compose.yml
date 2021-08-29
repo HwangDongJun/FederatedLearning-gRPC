@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  FLserver:
+    image: python:3.8
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    restart: always
+    tty: true
+    ports:
+      - "8890:8890"
+    networks:
+      - default
+      - flnetwork
+
+  FLclient:
+    image: python:3.8
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    tty: true
+    restart: always
+    depends_on:
+      - FLserver
+    networks:
+      - default
+      - flnetwork
+
+networks:
+  flnetwork:
+    driver: bridge
