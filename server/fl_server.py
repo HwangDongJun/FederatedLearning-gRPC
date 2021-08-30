@@ -6,7 +6,7 @@ import pickle
 import threading
 import numpy as np
 
-import model_evaluate
+import model_evaluate_for_mnist
 
 import grpc
 import sys
@@ -230,6 +230,6 @@ def serve():
 
 
 if __name__ == '__main__':
-	eval_model = model_evaluate.evaluate_LocalModel(16, 224, np.array(['0', '1', '2', '3', '4']))
+	eval_model = model_evaluate_for_mnist.evaluate_LocalModel(16, 48, np.array(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']))
 	made_model = eval_model.buildGlobalModel(3, 0.001)
 	serve()

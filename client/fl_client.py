@@ -5,7 +5,8 @@ import time
 import random
 import pickle
 
-from client_fit_model import learning_fit
+#from client_fit_model import learning_fit
+from client_fit_model_for_mnist import learning_fit
 
 import grpc
 import sys

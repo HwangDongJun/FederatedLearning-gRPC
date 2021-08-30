@@ -13,8 +13,8 @@ RUN mkdir -p saved_weight
 RUN mkdir -p send_logs
 RUN mkdir -p common
 
-COPY ./client_fit_model.py ./
-COPY ./fl_client.py ./
+COPY ./client/client_fit_model_for_mnist.py ./
+COPY ./client/fl_client.py ./
 COPY ./common/transport_pb2_grpc.py ./common
 COPY ./common/transport_pb2.py ./common
 

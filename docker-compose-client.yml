@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  fl_client:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    tty: true
+    restart: always
+
+networks:
+  default:
+    external:
+      name: custom_network

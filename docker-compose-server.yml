@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  fl_server:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    restart: always
+    tty: true
+    ports:
+      - "8890:8890"
+    networks:
+      - flnet
+
+networks:
+  flnet:
+    name: custom_network

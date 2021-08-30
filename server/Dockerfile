@@ -13,8 +13,10 @@ WORKDIR /app
 RUN mkdir -p server_weights
 RUN mkdir -p common
 
-COPY ./fl_server.py ./
-COPY ./model_evaluate.py ./
+COPY ./server/fl_server.py ./
+COPY ./server/model_evaluate_for_mnist.py ./
+#COPY ./fl_server.py ./
+#COPY ./model_evaluate_for_mnist.py ./
 COPY ./common/transport_pb2_grpc.py ./common
 COPY ./common/transport_pb2.py ./common
 
