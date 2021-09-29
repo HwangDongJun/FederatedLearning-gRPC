@@ -14,6 +14,7 @@ enum State {
 	TRAIN_DONE = 4;
 	WAIT = 5;
 	NOT_WAIT = 6;
+	FIN = 7;
 }
 
 message ReadyReq {
@@ -30,6 +31,12 @@ message UpdateReq {
 	optional string cname = 5;
 	optional int32 file_len = 6;
 	optional int32 current_round = 7;
+	optional float accuracy = 8;
+	optional float loss = 9;
+	optional float trainingtime = 10;
+	optional string classsize = 11;
+	optional string datasize = 12;
+	optional string uploadtime = 13;
 }
 message VersionReq {
 	string type = 1;

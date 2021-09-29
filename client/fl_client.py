@@ -54,8 +54,17 @@ def request_training(nclient):
 	for tr in training_request:
 		yield transportRequest(update_req=tr)
 
-def request_traindone(nclient, cr, bc):
-	traindone_request = [UpdateReq(type="D", buffer_chunk=pickle.dumps(bc), state=State.TRAIN_DONE, cname=nclient, current_round=cr)]
+def request_traindone(nclient, cr, bc, acc, loss, tt, ds, cs):
+	class_size = ','.join(str(e) for e in cs)
+	data_size = '';
+	for i, d in enumerate(ds):
+		if i+1 == len(ds):
+			data_size += f'{d}-{ds[d]}'
+		else:
+			data_size += f'{d}-{ds[d]},'
+	
+	USTIME = time.time() # upload time
+	traindone_request = [UpdateReq(type="D", buffer_chunk=pickle.dumps(bc), state=State.TRAIN_DONE, cname=nclient, current_round=cr, accuracy=acc, loss=loss, trainingtime=tt, classsize=class_size, datasize=data_size, uploadtime=str(USTIME))]
 	for tr in traindone_request:
 		yield transportRequest(update_req=tr)
 
@@ -68,7 +77,7 @@ def request_model_version(mv, cr):
 		yield transportRequest(version_req=vr)
 
 def send_message(stub):
-	global client_name
+	global client_name; global acc; global loss
 
 	ready_state = False
 	# ready client
@@ -92,13 +101,13 @@ def send_message(stub):
 		update = request_parameter()
 		response_update = stub.transport(update)
 		for ru in response_update:
-			class_for_learning = learning_fit(ready_info_dict['tmt'], 1, 16, ru.update_rep.buffer_chunk, ready_info_dict['cr'])
+			class_for_learning = learning_fit(ready_info_dict['tmt'], 10, 16, ru.update_rep.buffer_chunk, ready_info_dict['cr'])
 
 		# train client
 		training = request_training(client_name)
 		response_training = stub.transport(training)
 
-		class_for_learning.manage_train(cr=ready_info_dict['cr']) # model fit
+		acc, loss, training_time, ds, cs = class_for_learning.manage_train(cr=ready_info_dict['cr'], cn=client_name) # model fit
 		'''
 		# update complete
 		## send logs file to server
@@ -115,9 +124,9 @@ def send_message(stub):
 			print("### Deliver model state: TRAIN DONE to server ###")
 			with open('./saved_weight/weights.pickle', 'rb') as fr:
 				get_params = pickle.load(fr)
-			traindone = request_traindone(client_name, ready_info_dict['cr'], get_params)
+			traindone = request_traindone(client_name, ready_info_dict['cr'], get_params, acc, loss, training_time, ds, cs)
 			response_traindone = stub.transport(traindone)										## 나 학습 다했어!
-		
+
 			oneres_traindone = None; oneres_newround = None
 			for rt in response_traindone:
 				oneres_traindone = rt
@@ -140,9 +149,13 @@ def send_message(stub):
 						ready_info_dict['cr'] = oneres_newround.version_rep.config['current_round'].scint32
 						ready_info_dict['mv'] = oneres_newround.version_rep.config['model_version'].scint32
 						change_model_version = True
+					elif oneres_newround.version_rep.state == State.FIN:
+						# 학습이 아예 끝남
+						print("all training finish")
+						sys.exit(0)
 																								## 아니 안끝났어 더 기다려!
 				# train next round
-				get_params = class_for_learning.manage_train(params=oneres_newround.version_rep.buffer_chunk, cr=ready_info_dict['cr'])	 ## 다음 라운드 학습해야지
+				acc, loss, training_time, ds, cs = class_for_learning.manage_train(params=oneres_newround.version_rep.buffer_chunk, cr=ready_info_dict['cr'], cn=client_name)	 ## 다음 라운드 학습해야지
 			# case 2: finish learning one round -> state: RESP_ARY
 			elif oneres_traindone.update_rep.config['state'].scstring == 'RESP_ARY':			## 바로 다음 라운드 학습해~
 				# train client
@@ -152,14 +165,14 @@ def send_message(stub):
 				ready_info_dict['cr'] = oneres_traindone.update_rep.config['current_round'].scint32
 				ready_info_dict['mv'] = oneres_traindone.update_rep.config['model_version'].scint32
 
-				get_params = class_for_learning.manage_train(params=oneres_traindone.update_rep.buffer_chunk, cr=ready_info_dict['cr'])	## 다음 라운드 학습!
+				acc, loss, training_time, ds, cs = class_for_learning.manage_train(params=oneres_traindone.update_rep.buffer_chunk, cr=ready_info_dict['cr'], cn=client_name)	## 다음 라운드 학습!
 
 				## for root...		## logs파일 보내는 코드 함수화해서 여기에 넣기
 			# case 3: finish all round training
 			elif oneres_traindone.update_rep.config['state'].scstring == 'FIN':					## 학습 끝났어!
 				ready_info_dict['cr'] = oneres_traindone.update_rep.config['current_round'].scint32
 				ready_info_dict['mv'] = oneres_traindone.update_rep.config['model_version'].scint32
-			
+
 				print("all training finish")
 				#??? 여기부터 구현해야함
 
@@ -170,5 +183,5 @@ def run():
 	send_message(stub)
 
 if __name__ == '__main__':
-	client_name = ""
+	client_name = ""; acc = 0.0; loss = 0.0
 	run()

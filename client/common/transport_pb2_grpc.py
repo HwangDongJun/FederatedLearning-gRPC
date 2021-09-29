@@ -2,7 +2,6 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-#import transport_pb2 as transport__pb2
 from . import transport_pb2 as transport__pb2
 
 
@@ -55,6 +54,7 @@ class TransportService(object):
             options=(),
             channel_credentials=None,
             call_credentials=None,
+            insecure=False,
             compression=None,
             wait_for_ready=None,
             timeout=None,
@@ -63,4 +63,4 @@ class TransportService(object):
             transport__pb2.transportRequest.SerializeToString,
             transport__pb2.transportResponse.FromString,
             options, channel_credentials,
-            call_credentials, compression, wait_for_ready, timeout, metadata)
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

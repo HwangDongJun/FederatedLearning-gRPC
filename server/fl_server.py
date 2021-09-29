@@ -3,7 +3,9 @@ from concurrent import futures
 import os
 import time
 import pickle
+import sqlite3
 import threading
+import requests
 import numpy as np
 
 import model_evaluate_for_mnist
@@ -18,9 +20,17 @@ readyClientSids = list(); currentRoundClientUpdates = list(); received_parameter
 clientUpdateAmount = 0
 ALL_CURRENT_ROUND = 0
 MODEL_VERSION = 1
-MAX_NUM_ROUND = 5
+MAX_NUM_ROUND = 50
 NUM_CLIENTS_CONTACTED_PER_ROUND = 0
 CHECK_CLIENT_TRAINING = False; CHECK_TRAIN_TIMER = False
+
+# sqlite3 database
+conn_index = sqlite3.connect("./dashboard_db/index.db", check_same_thread=False)
+cur_index = conn_index.cursor()
+conn_learning = sqlite3.connect("./dashboard_db/learning.db", check_same_thread=False)
+cur_learning = conn_learning.cursor()
+
+#################
 
 ## update_req.type == P
 def send_parameter():
@@ -42,7 +52,7 @@ def trainNextRound(current_round):
 ## timer
 def client_training_check_timer():
 	global CHECK_CLIENT_TRAINING
-	time.sleep(10)
+	time.sleep(30)
 	CHECK_CLIENT_TRAINING = True
 
 def ready_client(name, config):
@@ -93,6 +103,7 @@ def save_chunks_to_file(buffer_chunk, title):
 ##
 ## manage rounds and model version check
 def updateWeight(round_client):
+	update_stime = time.time()
 	averaged_weight = list()
 	for wcl in received_parameters:
 		if len(averaged_weight) == 0:
@@ -106,8 +117,10 @@ def updateWeight(round_client):
 
 	with open('./server_weights/weights.pickle', 'wb') as fw:
 		pickle.dump(averaged_weight, fw)
+	update_time = time.time() - update_stime
+	return update_time
 
-def manage_rounds(nclient, current_round, buffer_chunk):
+def manage_rounds(nclient, current_round, buffer_chunk, clid):
 	global ALL_CURRENT_ROUND; global MODEL_VERSION; global clientUpdateAmount
 	global currentRoundClientUpdates; global received_parameters
 
@@ -117,7 +130,14 @@ def manage_rounds(nclient, current_round, buffer_chunk):
 		currentRoundClientUpdates.append(nclient)
 		received_parameters.append(buffer_chunk)
 		if clientUpdateAmount >= NUM_CLIENTS_CONTACTED_PER_ROUND:
-			updateWeight(len(currentRoundClientUpdates))
+			aggre_time = updateWeight(len(currentRoundClientUpdates))
+			cur_learning.execute('''SELECT EXISTS (SELECT * FROM ServerTime WHERE round=? and clientid=?)''', (ALL_CURRENT_ROUND, clid,))
+			if cur_learning.fetchone()[0]:
+				cur_learning.execute('''UPDATE ServerTime SET aggregationtime=? WHERE round=? and clientid=?''', (aggre_time, ALL_CURRENT_ROUND, clid,))
+			else:
+				cur_learning.execute('''INSERT INTO ServerTime VALUES (?, ?, ?, ?);''', (ALL_CURRENT_ROUND, clid, aggre_time, 0,))
+			conn_learning.commit()
+
 			if current_round >= MAX_NUM_ROUND:
 				print('All rounds of learning have been completed, and the status is “FIN”.')
 				### stop_and_eval() => 아직 구현은 안함... 서버에서 검증하는 코드가 필요한지?
@@ -152,9 +172,30 @@ def version_check(Mversion, Cround):
 		return [State.NOT_WAIT, configuration]
 ##
 
+def change_clientname2index(cn):
+	cur_index.execute('''SELECT id FROM ClientID WHERE clientname=?''', (cn,))
+	return cur_index.fetchone()[0]
+
 def manage_request(request):
 	for req in request:
 		if req.ready_req.type == 'R':
+			# insert db client database
+			cur_index.execute('''SELECT COUNT(*) FROM ClientID;''')
+			cCount = cur_index.fetchone()[0]
+			cur_index.execute('''INSERT INTO ClientID VALUES (?, ?);''', (cCount+1, req.ready_req.cname,))
+			cur_learning.execute('''SELECT COUNT(*) FROM NowStatus WHERE round=?;''', (req.ready_req.config['current_round'].scint32,))
+			if cur_learning.fetchone()[0] != 0:
+				cur_learning.execute('''SELECT status_on FROM NowStatus WHERE round=?;''', (req.ready_req.config['current_round'].scint32,))
+				Ston = cur_learning.fetchone()[0]
+				cur_learning.execute('''UPDATE NowStatus SET status_on=? WHERE round=?;''', (Ston+1, req.ready_req.config['current_round'].scint32,))
+			else:
+				cur_learning.execute('''INSERT INTO NowStatus (round, status_on, status_off) VALUES (?, ?, ?);''', (req.ready_req.config['current_round'].scint32, cCount, 0))
+
+			conn_index.commit()
+
+			# api
+			#r = requests.get('http://192.168.1.119:5005/new_client')
+		
 			res_config = [ready_client(req.ready_req.cname, req.ready_req.config)]
 			for rc in res_config:
 				yield transportResponse(ready_rep=ReadyRep(config=rc))
@@ -178,8 +219,25 @@ def manage_request(request):
 				yield transportResponse(update_rep=rn)
 		elif req.update_req.type == 'D':																## 학습이 끝났는데 뭐해야해?
 			configuration = dict()
+			client_id = change_clientname2index(req.update_req.cname)
+
+			# preprocess datasize, classsize
+			classSize = req.update_req.classsize.split(',')
+			dataSize = [0 for i in range(len(classSize))]
+			for ds in req.update_req.datasize.split(','):
+				dataSize[int(ds.split('-')[0])] += int(ds.split('-')[1])
+
+			# save database
+			cur_learning.execute('''INSERT INTO LearningTrain VALUES (?, ?, ?, ?, ?);''', (req.update_req.current_round, client_id, req.update_req.accuracy, req.update_req.loss, req.update_req.trainingtime,))
+			cur_learning.execute('''INSERT INTO LearningRound VALUES (?, ?, ?, ?);''', (req.update_req.current_round, client_id, ','.join(str(d) for d in dataSize), req.update_req.classsize,))
+			cur_learning.execute('''INSERT INTO LearningTime VALUES (?, ?, ?, ?);''', (req.update_req.current_round, client_id, float(req.update_req.uploadtime), time.time(),))
+			conn_learning.commit()
+
+			# api
+			#r = requests.get('http://192.168.1.119:5005/train_done')
+
 			print("### Start rounds management ###")
-			rounds_state = manage_rounds(req.update_req.cname, req.update_req.current_round, pickle.loads(req.update_req.buffer_chunk))
+			rounds_state = manage_rounds(req.update_req.cname, req.update_req.current_round, pickle.loads(req.update_req.buffer_chunk), client_id)
 
 			configuration['model_version'] = Scalar(scint32=MODEL_VERSION)
 			configuration['current_round'] = Scalar(scint32=ALL_CURRENT_ROUND)
@@ -190,6 +248,7 @@ def manage_request(request):
 				for rr in res_rounds:
 					yield transportResponse(update_rep=rr)
 			elif rounds_state == "RESP_ARY":															## 학습 다 끝났네. 바로 다음 라운드 학습해
+				dis_stime = time.time()
 				res_rounds = [UpdateRep(type=req.update_req.type, buffer_chunk=send_parameter(), config=configuration)]
 				for rr in res_rounds:
 					yield transportResponse(update_rep=rr)
@@ -197,6 +256,15 @@ def manage_request(request):
 				res_rounds = [UpdateRep(type=req.update_req.type, config=configuration)]
 				for rr in res_rounds:
 					yield transportResponse(update_rep=rr)
+			
+			if rounds_state == "RESP_ARY":
+				dis_time = time.time() - dis_stime
+				cur_learning.execute('''SELECT EXISTS (SELECT * FROM ServerTime WHERE round=? and clientid=?)''', (ALL_CURRENT_ROUND-1, client_id,))
+				if cur_learning.fetchone()[0]:
+					cur_learning.execute('''UPDATE ServerTime SET distributiontime=? WHERE round=? and clientid=?''', (dis_time, ALL_CURRENT_ROUND-1, client_id,))
+				else:
+					cur_learning.execute('''INSERT INTO ServerTime VALUES (?, ?, ?, ?);''', (ALL_CURRENT_ROUND-1, client_id, 0, dis_time,))
+				conn_learning.commit()
 		elif req.version_req.type == 'P':
 			now_state = version_check(req.version_req.config['model_version'].scint32, req.version_req.config['current_round'].scint32)
 			if now_state[0] == State.NOT_WAIT:
@@ -230,6 +298,8 @@ def serve():
 
 
 if __name__ == '__main__':
+	cur_learning.execute('''INSERT INTO LearningInfo (max_round) VALUES (?);''', (MAX_NUM_ROUND,))
+
 	eval_model = model_evaluate_for_mnist.evaluate_LocalModel(16, 48, np.array(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']))
 	made_model = eval_model.buildGlobalModel(3, 0.001)
 	serve()
