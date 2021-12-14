@@ -15,6 +15,7 @@ enum State {
 	WAIT = 5;
 	NOT_WAIT = 6;
 	FIN = 7;
+	DELETE = 8;
 }
 
 message ReadyReq {
@@ -33,10 +34,15 @@ message UpdateReq {
 	optional int32 current_round = 7;
 	optional float accuracy = 8;
 	optional float loss = 9;
-	optional float trainingtime = 10;
-	optional string classsize = 11;
-	optional string datasize = 12;
-	optional string uploadtime = 13;
+	optional float tloss = 10;
+	optional float trainingtime = 11;
+	optional string classsize = 12;
+	optional string datasize = 13;
+	optional string uploadtime = 14;
+	optional float percent_cpu = 15;
+	optional float percent_ram = 16;
+	optional bytes pred_pro = 17;
+	optional float wrong_pred = 18;
 }
 message VersionReq {
 	string type = 1;

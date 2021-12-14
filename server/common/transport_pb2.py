@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0ftransport.proto\x12\ttransport\"\xbb\x01\n\x08ReadyReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05\x63name\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.State\x12/\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1f.transport.ReadyReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\xe1\x03\n\tUpdateReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x12\n\x05\x63name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12\x15\n\x08\x66ile_len\x18\x06 \x01(\x05H\x04\x88\x01\x01\x12\x1a\n\rcurrent_round\x18\x07 \x01(\x05H\x05\x88\x01\x01\x12\x15\n\x08\x61\x63\x63uracy\x18\x08 \x01(\x02H\x06\x88\x01\x01\x12\x11\n\x04loss\x18\t \x01(\x02H\x07\x88\x01\x01\x12\x19\n\x0ctrainingtime\x18\n \x01(\x02H\x08\x88\x01\x01\x12\x16\n\tclasssize\x18\x0b \x01(\tH\t\x88\x01\x01\x12\x15\n\x08\x64\x61tasize\x18\x0c \x01(\tH\n\x88\x01\x01\x12\x17\n\nuploadtime\x18\r \x01(\tH\x0b\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_stateB\x08\n\x06_cnameB\x0b\n\t_file_lenB\x10\n\x0e_current_roundB\x0b\n\t_accuracyB\x07\n\x05_lossB\x0f\n\r_trainingtimeB\x0c\n\n_classsizeB\x0b\n\t_datasizeB\r\n\x0b_uploadtime\"\x8f\x01\n\nVersionReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x31\n\x06\x63onfig\x18\x02 \x03(\x0b\x32!.transport.VersionReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\xa7\x01\n\x10transportRequest\x12(\n\tready_req\x18\x01 \x01(\x0b\x32\x13.transport.ReadyReqH\x00\x12*\n\nupdate_req\x18\x02 \x01(\x0b\x32\x14.transport.UpdateReqH\x00\x12,\n\x0bversion_req\x18\x03 \x01(\x0b\x32\x15.transport.VersionReqH\x00\x42\x0f\n\rrequest_oneof\"}\n\x08ReadyRep\x12/\n\x06\x63onfig\x18\x01 \x03(\x0b\x32\x1f.transport.ReadyRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\x87\x02\n\tUpdateRep\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x30\n\x06\x63onfig\x18\x05 \x03(\x0b\x32 .transport.UpdateRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_state\"\xdd\x01\n\nVersionRep\x12\x31\n\x06\x63onfig\x18\x01 \x03(\x0b\x32!.transport.VersionRep.ConfigEntry\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12$\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.StateH\x01\x88\x01\x01\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_state\"\xa9\x01\n\x11transportResponse\x12(\n\tready_rep\x18\x01 \x01(\x0b\x32\x13.transport.ReadyRepH\x00\x12*\n\nupdate_rep\x18\x02 \x01(\x0b\x32\x14.transport.UpdateRepH\x00\x12,\n\x0bversion_rep\x18\x03 \x01(\x0b\x32\x15.transport.VersionRepH\x00\x42\x10\n\x0eresponse_oneof\"r\n\x06Scalar\x12\x12\n\x08scdouble\x18\x01 \x01(\x01H\x00\x12\x11\n\x07scfloat\x18\x02 \x01(\x02H\x00\x12\x11\n\x07scint32\x18\x03 \x01(\x05H\x00\x12\x12\n\x08scstring\x18\x04 \x01(\tH\x00\x12\x10\n\x06scbool\x18\x05 \x01(\x08H\x00\x42\x08\n\x06scalar*a\n\x05State\x12\x08\n\x04NONE\x10\x00\x12\x06\n\x02ON\x10\x01\x12\x07\n\x03OFF\x10\x02\x12\x0c\n\x08TRAINING\x10\x03\x12\x0e\n\nTRAIN_DONE\x10\x04\x12\x08\n\x04WAIT\x10\x05\x12\x0c\n\x08NOT_WAIT\x10\x06\x12\x07\n\x03\x46IN\x10\x07\x32`\n\x10TransportService\x12L\n\ttransport\x12\x1b.transport.transportRequest\x1a\x1c.transport.transportResponse\"\x00(\x01\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0ftransport.proto\x12\ttransport\"\xbb\x01\n\x08ReadyReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\r\n\x05\x63name\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.State\x12/\n\x06\x63onfig\x18\x04 \x03(\x0b\x32\x1f.transport.ReadyReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\x9f\x05\n\tUpdateReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x12\n\x05\x63name\x18\x05 \x01(\tH\x03\x88\x01\x01\x12\x15\n\x08\x66ile_len\x18\x06 \x01(\x05H\x04\x88\x01\x01\x12\x1a\n\rcurrent_round\x18\x07 \x01(\x05H\x05\x88\x01\x01\x12\x15\n\x08\x61\x63\x63uracy\x18\x08 \x01(\x02H\x06\x88\x01\x01\x12\x11\n\x04loss\x18\t \x01(\x02H\x07\x88\x01\x01\x12\x12\n\x05tloss\x18\n \x01(\x02H\x08\x88\x01\x01\x12\x19\n\x0ctrainingtime\x18\x0b \x01(\x02H\t\x88\x01\x01\x12\x16\n\tclasssize\x18\x0c \x01(\tH\n\x88\x01\x01\x12\x15\n\x08\x64\x61tasize\x18\r \x01(\tH\x0b\x88\x01\x01\x12\x17\n\nuploadtime\x18\x0e \x01(\tH\x0c\x88\x01\x01\x12\x18\n\x0bpercent_cpu\x18\x0f \x01(\x02H\r\x88\x01\x01\x12\x18\n\x0bpercent_ram\x18\x10 \x01(\x02H\x0e\x88\x01\x01\x12\x15\n\x08pred_pro\x18\x11 \x01(\x0cH\x0f\x88\x01\x01\x12\x17\n\nwrong_pred\x18\x12 \x01(\x02H\x10\x88\x01\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_stateB\x08\n\x06_cnameB\x0b\n\t_file_lenB\x10\n\x0e_current_roundB\x0b\n\t_accuracyB\x07\n\x05_lossB\x08\n\x06_tlossB\x0f\n\r_trainingtimeB\x0c\n\n_classsizeB\x0b\n\t_datasizeB\r\n\x0b_uploadtimeB\x0e\n\x0c_percent_cpuB\x0e\n\x0c_percent_ramB\x0b\n\t_pred_proB\r\n\x0b_wrong_pred\"\x8f\x01\n\nVersionReq\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x31\n\x06\x63onfig\x18\x02 \x03(\x0b\x32!.transport.VersionReq.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\xa7\x01\n\x10transportRequest\x12(\n\tready_req\x18\x01 \x01(\x0b\x32\x13.transport.ReadyReqH\x00\x12*\n\nupdate_req\x18\x02 \x01(\x0b\x32\x14.transport.UpdateReqH\x00\x12,\n\x0bversion_req\x18\x03 \x01(\x0b\x32\x15.transport.VersionReqH\x00\x42\x0f\n\rrequest_oneof\"}\n\x08ReadyRep\x12/\n\x06\x63onfig\x18\x01 \x03(\x0b\x32\x1f.transport.ReadyRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\"\x87\x02\n\tUpdateRep\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12\x12\n\x05title\x18\x03 \x01(\tH\x01\x88\x01\x01\x12$\n\x05state\x18\x04 \x01(\x0e\x32\x10.transport.StateH\x02\x88\x01\x01\x12\x30\n\x06\x63onfig\x18\x05 \x03(\x0b\x32 .transport.UpdateRep.ConfigEntry\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_titleB\x08\n\x06_state\"\xdd\x01\n\nVersionRep\x12\x31\n\x06\x63onfig\x18\x01 \x03(\x0b\x32!.transport.VersionRep.ConfigEntry\x12\x19\n\x0c\x62uffer_chunk\x18\x02 \x01(\x0cH\x00\x88\x01\x01\x12$\n\x05state\x18\x03 \x01(\x0e\x32\x10.transport.StateH\x01\x88\x01\x01\x1a@\n\x0b\x43onfigEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12 \n\x05value\x18\x02 \x01(\x0b\x32\x11.transport.Scalar:\x02\x38\x01\x42\x0f\n\r_buffer_chunkB\x08\n\x06_state\"\xa9\x01\n\x11transportResponse\x12(\n\tready_rep\x18\x01 \x01(\x0b\x32\x13.transport.ReadyRepH\x00\x12*\n\nupdate_rep\x18\x02 \x01(\x0b\x32\x14.transport.UpdateRepH\x00\x12,\n\x0bversion_rep\x18\x03 \x01(\x0b\x32\x15.transport.VersionRepH\x00\x42\x10\n\x0eresponse_oneof\"r\n\x06Scalar\x12\x12\n\x08scdouble\x18\x01 \x01(\x01H\x00\x12\x11\n\x07scfloat\x18\x02 \x01(\x02H\x00\x12\x11\n\x07scint32\x18\x03 \x01(\x05H\x00\x12\x12\n\x08scstring\x18\x04 \x01(\tH\x00\x12\x10\n\x06scbool\x18\x05 \x01(\x08H\x00\x42\x08\n\x06scalar*m\n\x05State\x12\x08\n\x04NONE\x10\x00\x12\x06\n\x02ON\x10\x01\x12\x07\n\x03OFF\x10\x02\x12\x0c\n\x08TRAINING\x10\x03\x12\x0e\n\nTRAIN_DONE\x10\x04\x12\x08\n\x04WAIT\x10\x05\x12\x0c\n\x08NOT_WAIT\x10\x06\x12\x07\n\x03\x46IN\x10\x07\x12\n\n\x06\x44\x45LETE\x10\x08\x32`\n\x10TransportService\x12L\n\ttransport\x12\x1b.transport.transportRequest\x1a\x1c.transport.transportResponse\"\x00(\x01\x30\x01\x62\x06proto3'
 )
 
 _STATE = _descriptor.EnumDescriptor(
@@ -70,11 +70,16 @@ _STATE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='DELETE', index=8, number=8,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1925,
-  serialized_end=2022,
+  serialized_start=2115,
+  serialized_end=2224,
 )
 _sym_db.RegisterEnumDescriptor(_STATE)
 
@@ -87,6 +92,7 @@ TRAIN_DONE = 4
 WAIT = 5
 NOT_WAIT = 6
 FIN = 7
+DELETE = 8
 
 
 
@@ -253,30 +259,65 @@ _UPDATEREQ = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='trainingtime', full_name='transport.UpdateReq.trainingtime', index=9,
+      name='tloss', full_name='transport.UpdateReq.tloss', index=9,
       number=10, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='classsize', full_name='transport.UpdateReq.classsize', index=10,
-      number=11, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      name='trainingtime', full_name='transport.UpdateReq.trainingtime', index=10,
+      number=11, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='datasize', full_name='transport.UpdateReq.datasize', index=11,
+      name='classsize', full_name='transport.UpdateReq.classsize', index=11,
       number=12, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='uploadtime', full_name='transport.UpdateReq.uploadtime', index=12,
+      name='datasize', full_name='transport.UpdateReq.datasize', index=12,
       number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='uploadtime', full_name='transport.UpdateReq.uploadtime', index=13,
+      number=14, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='percent_cpu', full_name='transport.UpdateReq.percent_cpu', index=14,
+      number=15, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='percent_ram', full_name='transport.UpdateReq.percent_ram', index=15,
+      number=16, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='pred_pro', full_name='transport.UpdateReq.pred_pro', index=16,
+      number=17, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='wrong_pred', full_name='transport.UpdateReq.wrong_pred', index=17,
+      number=18, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -332,28 +373,53 @@ _UPDATEREQ = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
     _descriptor.OneofDescriptor(
-      name='_trainingtime', full_name='transport.UpdateReq._trainingtime',
+      name='_tloss', full_name='transport.UpdateReq._tloss',
       index=8, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
     _descriptor.OneofDescriptor(
-      name='_classsize', full_name='transport.UpdateReq._classsize',
+      name='_trainingtime', full_name='transport.UpdateReq._trainingtime',
       index=9, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
     _descriptor.OneofDescriptor(
-      name='_datasize', full_name='transport.UpdateReq._datasize',
+      name='_classsize', full_name='transport.UpdateReq._classsize',
       index=10, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
     _descriptor.OneofDescriptor(
-      name='_uploadtime', full_name='transport.UpdateReq._uploadtime',
+      name='_datasize', full_name='transport.UpdateReq._datasize',
       index=11, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_uploadtime', full_name='transport.UpdateReq._uploadtime',
+      index=12, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_percent_cpu', full_name='transport.UpdateReq._percent_cpu',
+      index=13, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_percent_ram', full_name='transport.UpdateReq._percent_ram',
+      index=14, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_pred_pro', full_name='transport.UpdateReq._pred_pro',
+      index=15, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
+    _descriptor.OneofDescriptor(
+      name='_wrong_pred', full_name='transport.UpdateReq._wrong_pred',
+      index=16, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
   serialized_start=221,
-  serialized_end=702,
+  serialized_end=892,
 )
 
 
@@ -429,8 +495,8 @@ _VERSIONREQ = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=705,
-  serialized_end=848,
+  serialized_start=895,
+  serialized_end=1038,
 )
 
 
@@ -480,8 +546,8 @@ _TRANSPORTREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=851,
-  serialized_end=1018,
+  serialized_start=1041,
+  serialized_end=1208,
 )
 
 
@@ -550,8 +616,8 @@ _READYREP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1020,
-  serialized_end=1145,
+  serialized_start=1210,
+  serialized_end=1335,
 )
 
 
@@ -663,8 +729,8 @@ _UPDATEREP = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1148,
-  serialized_end=1411,
+  serialized_start=1338,
+  serialized_end=1601,
 )
 
 
@@ -757,8 +823,8 @@ _VERSIONREP = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1414,
-  serialized_end=1635,
+  serialized_start=1604,
+  serialized_end=1825,
 )
 
 
@@ -808,8 +874,8 @@ _TRANSPORTRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1638,
-  serialized_end=1807,
+  serialized_start=1828,
+  serialized_end=1997,
 )
 
 
@@ -873,8 +939,8 @@ _SCALAR = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=1809,
-  serialized_end=1923,
+  serialized_start=1999,
+  serialized_end=2113,
 )
 
 _READYREQ_CONFIGENTRY.fields_by_name['value'].message_type = _SCALAR
@@ -906,6 +972,9 @@ _UPDATEREQ.fields_by_name['accuracy'].containing_oneof = _UPDATEREQ.oneofs_by_na
 _UPDATEREQ.oneofs_by_name['_loss'].fields.append(
   _UPDATEREQ.fields_by_name['loss'])
 _UPDATEREQ.fields_by_name['loss'].containing_oneof = _UPDATEREQ.oneofs_by_name['_loss']
+_UPDATEREQ.oneofs_by_name['_tloss'].fields.append(
+  _UPDATEREQ.fields_by_name['tloss'])
+_UPDATEREQ.fields_by_name['tloss'].containing_oneof = _UPDATEREQ.oneofs_by_name['_tloss']
 _UPDATEREQ.oneofs_by_name['_trainingtime'].fields.append(
   _UPDATEREQ.fields_by_name['trainingtime'])
 _UPDATEREQ.fields_by_name['trainingtime'].containing_oneof = _UPDATEREQ.oneofs_by_name['_trainingtime']
@@ -918,6 +987,18 @@ _UPDATEREQ.fields_by_name['datasize'].containing_oneof = _UPDATEREQ.oneofs_by_na
 _UPDATEREQ.oneofs_by_name['_uploadtime'].fields.append(
   _UPDATEREQ.fields_by_name['uploadtime'])
 _UPDATEREQ.fields_by_name['uploadtime'].containing_oneof = _UPDATEREQ.oneofs_by_name['_uploadtime']
+_UPDATEREQ.oneofs_by_name['_percent_cpu'].fields.append(
+  _UPDATEREQ.fields_by_name['percent_cpu'])
+_UPDATEREQ.fields_by_name['percent_cpu'].containing_oneof = _UPDATEREQ.oneofs_by_name['_percent_cpu']
+_UPDATEREQ.oneofs_by_name['_percent_ram'].fields.append(
+  _UPDATEREQ.fields_by_name['percent_ram'])
+_UPDATEREQ.fields_by_name['percent_ram'].containing_oneof = _UPDATEREQ.oneofs_by_name['_percent_ram']
+_UPDATEREQ.oneofs_by_name['_pred_pro'].fields.append(
+  _UPDATEREQ.fields_by_name['pred_pro'])
+_UPDATEREQ.fields_by_name['pred_pro'].containing_oneof = _UPDATEREQ.oneofs_by_name['_pred_pro']
+_UPDATEREQ.oneofs_by_name['_wrong_pred'].fields.append(
+  _UPDATEREQ.fields_by_name['wrong_pred'])
+_UPDATEREQ.fields_by_name['wrong_pred'].containing_oneof = _UPDATEREQ.oneofs_by_name['_wrong_pred']
 _VERSIONREQ_CONFIGENTRY.fields_by_name['value'].message_type = _SCALAR
 _VERSIONREQ_CONFIGENTRY.containing_type = _VERSIONREQ
 _VERSIONREQ.fields_by_name['config'].message_type = _VERSIONREQ_CONFIGENTRY
@@ -1115,8 +1196,8 @@ _TRANSPORTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2024,
-  serialized_end=2120,
+  serialized_start=2226,
+  serialized_end=2322,
   methods=[
   _descriptor.MethodDescriptor(
     name='transport',

@@ -1,0 +1,106 @@
+div#learning_reminder {
+	position: absolute;
+	width: 528px;
+	height: 452px;
+	left: 289px;
+	top: 820px;
+
+	border: 1px solid #656363;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+img#reminder {
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	left: 52px;
+	top: 31px;
+}
+p#learningreminderText {
+	position: absolute;
+	left: 119px;
+	top: 24px;
+	
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 21px;
+}
+img#progressbarimg {
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	bottom: 10px;
+}
+.progressbar-holder {
+	width: 80%;
+	background-color: rgb(231, 231, 231);
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	-ms-border-radius: 20px;
+	-o-border-radius: 20px;
+	margin: 0 auto;
+	position: relative;
+	top: 120px;
+}
+.totalprogress {
+	background-color: rgb(22, 21, 21);
+	color: #E5E5E5;
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	-ms-border-radius: 20px;
+	-o-border-radius: 20px;
+	text-align: center;
+}
+
+
+div#client_status {
+	position: absolute;
+	width: 563px;
+	height: 609px;
+	left: 847px;
+	top: 663px;
+
+	border: 1px solid #656363;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
+
+div#training_time {
+	position: absolute;
+	width: 845px;
+	height: 386px;
+	left: 1442px;
+	top: 886px;
+
+	border: 1px solid #656363;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+img#traintime {
+	position: absolute;
+	width: 48px;
+	height: 48px;
+	left: 38px;
+	top: 28px;
+}
+p#TrainingtimeText {
+	position: absolute;
+	left: 104px;
+	top: 14px;
+	
+	font-style: normal;
+	font-weight: normal;
+	font-size: 30px;
+	line-height: 15px;
+	text-align: center;
+}
+canvas#trainingtimeline {
+	position: absolute;
+	top: 100px;
+	width: 100px;
+	height: 400px;
+}

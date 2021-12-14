@@ -3,9 +3,12 @@ import numpy as np
 import PIL.Image as Image
 from PIL import ImageFile
 import tensorflow as tf
+import tensorflow_hub as hub
 from tensorflow import keras
 from tensorflow.keras import layers
 import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 class evaluate_LocalModel(object):
 	def __init__(self, batch_size, image_size, class_names):
@@ -48,21 +51,29 @@ class evaluate_LocalModel(object):
 				loss='categorical_crossentropy',
 				metrics=['accuracy'])
 		'''
-		model = tf.keras.applications.MobileNetV2()
+		#model = tf.keras.applications.MobileNetV2()
 		
-		base_input = model.layers[0].input
-		base_output = model.layers[-2].output
-		final_output = layers.Dense(128)(base_output)
-		final_output = layers.Activation('relu')(final_output)
-		final_output = layers.Dense(64)(final_output)
-		final_output = layers.Activation('relu')(final_output)
-		final_output = layers.Dense(5, activation='softmax')(final_output)
+		#base_input = model.layers[0].input
+		#base_output = model.layers[-2].output
+		#final_output = layers.Dense(32)(base_output)
+		#final_output = layers.Activation('relu')(final_output)
+		#final_output = layers.Dense(64)(final_output)
+		#final_output = layers.Activation('relu')(final_output)
+		#final_output = layers.Dense(5, activation='softmax')(final_output)
 
-		new_model = keras.Model(inputs=base_input, outputs=final_output)
+		#new_model = keras.Model(inputs=base_input, outputs=final_output)
 		
-		new_model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+		model_url = "https://tfhub.dev/google/imagenet/mobilenet_v2_050_96/feature_vector/5"
+		model = hub.KerasLayer(model_url, input_shape=(96, 96, 3))
+		
+		base_model = tf.keras.Sequential([
+			model,
+			layers.Dense(5, activation='softmax')
+		])
+		
+		base_model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-		return new_model
+		return base_model
 
 	#def saved_model(self, localmodel):
 		#localmodel.save("./saved_model/")

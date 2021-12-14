@@ -1,0 +1,117 @@
+const express = require('express');
+const app = express();
+const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
+var idb = new sqlite3.Database("../FederatedLearning-gRPC/server/dashboard_db/index.db", sqlite3.OPEN_READWRITE, (err) => {
+	if (err) {
+		console.error(err.message);
+	} else {
+		console.log("Connected to the index database.");
+	}
+});
+var cdb = new sqlite3.Database("../FederatedLearning-gRPC/server/dashboard_db/learning.db", sqlite3.OPEN_READWRITE, (err) => {
+		if (err) {
+			console.error(err.message);
+		} else {
+			console.log("Connected to the core database.");
+		}
+});
+
+// db query
+const clientCountQuery = `
+	SELECT COUNT(clientname) AS Ccn FROM ClientID
+`;
+const StatusQuery = `
+	SELECT * FROM NowStatus ORDER BY round DESC LIMIT 1
+`;
+const TrainingQuery = `
+	SELECT * FROM (SELECT accuracy, loss, trainingtime FROM LearningTrain ORDER BY round DESC) LIMIT 1
+`;
+const AccLossChartQuery = `
+	SELECT round, accuracy, loss FROM LearningTrain
+`;
+
+
+app.set('view engine', 'jade');
+app.set('views', './views');
+
+app.use(express.static(path.join(__dirname, '/')));
+
+app.get('/', (req, res) => {
+	res.redirect('/dashboard');
+});
+
+// dashboard chart data
+function acc_loss() {
+	var ral = [];
+	idb.all(AccLossChartQuery, (err, row) => {
+		ral = row;
+	});
+	console.log(ral);
+}
+
+app.get('/get_db', (req, res) => {
+	var clientCount = 0;
+
+	idb.serialize(() => {
+		idb.each(clientCountQuery, (err, row) => {
+			clientCount = row.Ccn;
+		});
+	});
+	
+	let result = [];
+	new Promise((resolve) => {
+		cdb.serialize(() => {
+			cdb.each(StatusQuery, (err, row) => {
+				resolve(row);
+			});
+		});
+	}).then((result => {console.log(result)}));
+
+	cdb.serialize(() => {
+		cdb.each(StatusQuery, (err, row) => {
+			status_row.push(row.round);
+			status_row.push(row.status_on);
+			status_row.push(row.status_off);
+		});
+	});
+	console.log(typeof r);
+	r().then((value)=>{
+			console.log(value);
+			});
+
+
+});
+
+app.get('/dashboard', (req, res) => {
+	var clientCount = 0;
+	var StatusRow = [];
+	var TrainingRow = [];
+
+	db.serialize();
+	clientCount = db.each(clientCountQuery);
+	console.log(clientCount);
+	db.all(StatusQuery, (err, row) => {
+		StatusRow = row;
+	});
+	db.all(TrainingQuery, (err, row) => {
+		TrainingRow = row;
+	});
+	res.render('dashboard_main', {cCount: clientCount, cRound: StatusRow[0], ston: StatusRow[1], stoff: StatusRow[2], acc: String(Math.round((TrainingRow[0]+Number.EPSILON)*10000)/100)+'%', loss: Math.round((TrainingRow[1]+Number.EPSILON)*100)/100, Tt: new Date(TrainingRow[2] * 1000).toISOString().substr(11, 8)});
+});
+
+app.get('/new_client', (req, res) => {
+	return res.join(success);
+});
+
+app.get('/train_done', (req, res) => {
+	return res.join(success);
+});
+
+let success = [
+	{
+		'success': 1
+	}
+]
+
+app.listen(5000);

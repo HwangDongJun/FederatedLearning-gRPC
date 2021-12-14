@@ -7,6 +7,8 @@ from tensorflow import keras
 from tensorflow.keras import datasets, layers, models
 import os
 
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
 class evaluate_LocalModel(object):
 	def __init__(self, batch_size, image_size, class_names):
 		self.batch_size = batch_size
@@ -66,17 +68,43 @@ class evaluate_LocalModel(object):
 		return new_model
 		'''
 		
+		#model = models.Sequential()
+		#model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+		#model.add(layers.MaxPooling2D((2, 2)))
+		#model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+		#model.add(layers.MaxPooling2D((2, 2)))
+		#model.add(layers.Flatten())
+		#model.add(layers.Dense(64, activation='relu'))
+		#model.add(layers.Dense(10, activation='softmax'))
 		model = models.Sequential()
 		model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)))
+		model.add(layers.Conv2D(32, (3, 3), activation='relu'))
 		model.add(layers.MaxPooling2D((2, 2)))
+		#model.add(layers.Dropout(0.25))
+		model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 		model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 		model.add(layers.MaxPooling2D((2, 2)))
-		model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+		#model.add(layers.Dropout(0.25))
 		model.add(layers.Flatten())
-		model.add(layers.Dense(64, activation='relu'))
+		model.add(layers.Dense(256, activation='relu'))
+		#model.add(layers.Dropout(0.5))
 		model.add(layers.Dense(10, activation='softmax'))
 		
-		model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+		#model = models.Sequential()
+		#model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+		#model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+		#model.add(layers.MaxPooling2D((2, 2)))
+		#model.add(layers.Dropout(0.25))
+		#model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+		#model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+		#model.add(layers.MaxPooling2D((2, 2)))
+		#model.add(layers.Dropout(0.25))
+		#model.add(layers.Flatten())
+		#model.add(layers.Dense(512, activation='relu'))
+		#model.add(layers.Dropout(0.5))
+		#model.add(layers.Dense(10, activation='softmax'))
+		
+		model.compile(loss="sparse_categorical_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.01), metrics=["accuracy"])
 		
 		return model
 
